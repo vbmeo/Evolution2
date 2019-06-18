@@ -22,12 +22,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 
+import org.springframework.web.bind.annotation.RestController;
+
 import com.vbmeo.evolution2.HomeController;
 import com.vbmeo.evolution2.model.MacroSettimanali;
 import com.vbmeo.evolution2.service.MacroSettimanaliService;
 
-
-@Controller
+//per chiamate rest json
+@RestController
 public class MacroSettimanaliController {
 private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -35,14 +37,17 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		@Autowired
 		private MacroSettimanaliService macroSettimanaliService;
 
-
-		@RequestMapping(value = "/macro", method = RequestMethod.GET,produces = "application/json")
+		@RequestMapping(value = "/macro", method = RequestMethod.GET)
 		public List<MacroSettimanali> list() {
 			List<MacroSettimanali> lista = macroSettimanaliService.getAll();			 
 			return lista;
 		}
 		
 		
-		
+//		@GetMapping(value = "/macro/{id}")
+//		public MacroSettimanali getById(@PathVariable("id") Integer id) {
+//			MacroSettimanali macro = macroSettimanaliService.getById(id);			 
+//			return macro;
+//		}
 
 }
