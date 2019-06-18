@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,17 +38,17 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 		@Autowired
 		private MacroSettimanaliService macroSettimanaliService;
 
-		@RequestMapping(value = "/macro", method = RequestMethod.GET)
+		
+		@GetMapping(value = "/macro")
 		public List<MacroSettimanali> list() {
 			List<MacroSettimanali> lista = macroSettimanaliService.getAll();			 
 			return lista;
 		}
 		
-		
-//		@GetMapping(value = "/macro/{id}")
-//		public MacroSettimanali getById(@PathVariable("id") Integer id) {
-//			MacroSettimanali macro = macroSettimanaliService.getById(id);			 
-//			return macro;
-//		}
+		@GetMapping(value = "/macro/{id}")
+		public MacroSettimanali getById(@PathVariable("id") Integer id) {
+			MacroSettimanali macro = macroSettimanaliService.getById(id);			 
+			return macro;
+		}
 
 }
