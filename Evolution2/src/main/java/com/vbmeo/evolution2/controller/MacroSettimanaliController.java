@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.ResourceAccessException;
 
 import com.vbmeo.evolution2.HomeController;
 import com.vbmeo.evolution2.model.MacroSettimanali;
@@ -51,4 +53,17 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 			return macro;
 		}
 
+//		@DeleteMapping("/macrosettimanali/{id}")
+//		public ResponseEntity delete(@PathVariable(value = "id") int id) throws ResourceAccessException{
+//			 System.out.println("cancellazione id macro " + id);
+//			MacroSettimanali macro = managerMacroSettimanali.getById(id);
+//			if (macro == null) 
+//				return new ResponseEntity("Nessuna macro trovata con id " + id, HttpStatus.NOT_FOUND);
+//			else
+//				managerMacroSettimanali.delete(id);
+//			
+//			return new ResponseEntity(id, HttpStatus.OK);
+//
+//		}
+	
 }
