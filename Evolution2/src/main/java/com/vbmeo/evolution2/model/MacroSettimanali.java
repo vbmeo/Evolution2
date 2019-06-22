@@ -1,6 +1,6 @@
 package com.vbmeo.evolution2.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class MacroSettimanali {
 	  private Integer id;

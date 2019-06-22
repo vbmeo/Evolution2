@@ -1,6 +1,6 @@
 package com.vbmeo.evolution2.controller;
 import java.text.DateFormat;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,7 +28,9 @@ import com.vbmeo.evolution2.HomeController;
 import com.vbmeo.evolution2.manager.ManagerMacroSettimanali;
 import com.vbmeo.evolution2.model.MacroSettimanali;
 import com.vbmeo.evolution2.service.MacroSettimanaliService;
+import com.vbmeo.evolution2.util.Costanti;
 import com.vbmeo.evolution2.util.FrasiFatte;
+import com.vbmeo.evolution2.util.MyUtil;
 
 
 //per chiamate rest json
@@ -36,68 +38,83 @@ import com.vbmeo.evolution2.util.FrasiFatte;
 public class MacroSettimanaliController {
 private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	
+
+
+
 		@Autowired
 		private MacroSettimanaliService macroSettimanaliService;
-
-		ManagerMacroSettimanali managerMacroSettimanali = new ManagerMacroSettimanali();
 		
 		
+		//http://localhost:8080/evolution2/macro
 		@GetMapping(value = "/macro")
 		public List<MacroSettimanali> list() {
+			logger.debug("richiesta lista macro settimanali");
 			List<MacroSettimanali> lista = macroSettimanaliService.getAll();			 
 			return lista;
 		}
 		
-		@GetMapping(value = "/macro/{id}")
-		public ResponseEntity getById(@PathVariable("id") Integer id) {
-			MacroSettimanali macro = macroSettimanaliService.getById(id);	
-			if (macro==null)
-				return new ResponseEntity(FrasiFatte.HttpRequest.ID_NON_TROVATO + id, HttpStatus.NOT_FOUND);
-			else
+		
+		//con string come parametro intercetto una possibile data
+		//http://localhost:8080/evolution2/macro/30 o 2018-10-22
+		@GetMapping(value = "/macro/{idOrDate}")
+		public ResponseEntity getById(@PathVariable("idOrDate") String idOrDate) {
+			if (MyUtil.isNumeric(idOrDate)){
+				//richiesta per id
+				Integer id=MyUtil.convertStringToInteger(idOrDate);
+				MacroSettimanali macro = macroSettimanaliService.getById(id);
+				logger.debug(FrasiFatte.HttpRequest.RICHIESTA_ANDATA_A_BUON_FINE + idOrDate);
 				return new ResponseEntity(macro, HttpStatus.OK);
-
+			}else if (MyUtil.eUnaData(idOrDate)){
+				java.sql.Date sqlDate = MyUtil.convertDateinSqlDate(idOrDate);
+				MacroSettimanali macro = macroSettimanaliService.getByDate(sqlDate);
+				logger.debug(FrasiFatte.HttpRequest.RICHIESTA_ANDATA_A_BUON_FINE + idOrDate);
+				return new ResponseEntity(macro, HttpStatus.OK);
+			}else{
+				logger.warn(FrasiFatte.HttpRequest.FORMATO_NON_VALIDO + idOrDate);
+				return new ResponseEntity(FrasiFatte.HttpRequest.FORMATO_NON_VALIDO + idOrDate, HttpStatus.BAD_REQUEST);
+			}
 		}
 
 		
+		
+		
+		//con parametri separati
 		@PostMapping(value = "/macro")
-		public ResponseEntity insert(@RequestParam(name = "data") Date data,
+		public ResponseEntity insert(@RequestParam(name = "dataYYYYMMDD") String dataYYYYMMDD,
 				@RequestParam(name = "calorie_sett") Integer calorie_sett,
 				@RequestParam(name = "carboidrati_sett") Integer carboidrati_sett,
 				@RequestParam(name = "proteine_sett") Integer proteine_sett,
 				@RequestParam(name = "grassi_sett") Integer grassi_sett,
 				@RequestParam(name = "alcool_sett") Integer alcool_sett
 									) {
-
-			MacroSettimanali macro = new MacroSettimanali(data,
-					calorie_sett,carboidrati_sett,proteine_sett,grassi_sett,alcool_sett);
-			
-			
-			if (alcool_sett==0){
-				System.out.println("alcool settimanali nullo, procedo col calcolo " + calorie_sett);
-				int apportoAlcool = managerMacroSettimanali.calcolaApportoCaloricoAlcoolSettimanale(macro);
-				macro.setAlcool_sett(apportoAlcool);
-				System.out.println("apporto alcool calcolato in " + apportoAlcool);
-			}else
-				System.out.println("apporto alcool già immesso " + alcool_sett);
-				
-			
-			macroSettimanaliService.insert(macro);
-			return new ResponseEntity(calorie_sett, HttpStatus.OK);
+			macroSettimanaliService.insert(dataYYYYMMDD, calorie_sett, carboidrati_sett, proteine_sett, grassi_sett, alcool_sett);
+			return new ResponseEntity("inserimento macro", HttpStatus.OK);
 		}
 		
-		
-//		@DeleteMapping("/macrosettimanali/{id}")
-//		public ResponseEntity delete(@PathVariable(value = "id") int id) throws ResourceAccessException{
-//			 System.out.println("cancellazione id macro " + id);
-//			MacroSettimanali macro = managerMacroSettimanali.getById(id);
-//			if (macro == null) 
-//				return new ResponseEntity("Nessuna macro trovata con id " + id, HttpStatus.NOT_FOUND);
-//			else
-//				managerMacroSettimanali.delete(id);
-//			
-//			return new ResponseEntity(id, HttpStatus.OK);
-//
-//		}
+		//http://localhost:8080/evolution2/macro/obj
+		//con text/json controlla già il formato data che sia di tipo sql
+		//con oggetto
+		@PostMapping(value = "/macro/obj")
+		public ResponseEntity insertO(@RequestBody  MacroSettimanali macro
+									) {
+
+			macroSettimanaliService.insert(macro);
+			return new ResponseEntity(macro, HttpStatus.OK);//macro ritorna con id appena inserita!!!
+		}
+
 	
+		
+		@DeleteMapping("/macro/{id}")
+		public ResponseEntity delete(@PathVariable Integer id) {
+
+			MacroSettimanali macro = macroSettimanaliService.getById(id);
+			if (macro==null) {
+				return new ResponseEntity(FrasiFatte.HttpRequest.ID_NON_TROVATO + id, HttpStatus.NOT_FOUND);
+			}else{
+				macroSettimanaliService.delete(id);
+			}
+
+			return new ResponseEntity(FrasiFatte.HttpRequest.RECORD_CANCELLATO + id , HttpStatus.OK);
+
+		}
 }

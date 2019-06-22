@@ -32,7 +32,7 @@ public interface MacroSettimanalimapper {
 	@Select("select * from dati_macro where id=#{id}")
 	public MacroSettimanali getById(Integer id);
 
-	@Select("select * from dati_macro")
+	@Select("select * from dati_macro order by data DESC")
 	public List<MacroSettimanali> getAll();
 
 	@Delete("delete from dati_macro where id=#{id}")

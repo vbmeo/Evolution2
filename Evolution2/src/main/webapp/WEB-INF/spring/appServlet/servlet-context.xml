@@ -60,7 +60,7 @@
 		<beans:property name="basePackage" value="com.vbmeo.evolution2.mapper" />
 	</beans:bean>
 	
-	
+	 <beans:bean id="ManagerMacroSettimanali" class="com.vbmeo.evolution2.manager.ManagerMacroSettimanali"/> 
 	
 </beans:beans>
 
