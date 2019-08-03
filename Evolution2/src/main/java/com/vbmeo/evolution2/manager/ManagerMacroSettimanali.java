@@ -1,5 +1,7 @@
 package com.vbmeo.evolution2.manager;
 
+import java.sql.Date;
+
 import com.vbmeo.evolution2.model.MacroSettimanali;
 
 
@@ -14,7 +16,22 @@ public class ManagerMacroSettimanali {
 		//**************************************************************************************
 		//**************************************************************************************
 		
-		
+	
+	/**
+	 * Usato per controllare che i dati immessi corrispondano al totale calorie nel caso in cui alcool venga inserito
+	 * @param macro
+	 * @return
+	 */
+		public static boolean verificaVeridicitaDatiCalorieConAlcool(MacroSettimanali macro){
+			Integer apportoDiTutti = calcolaApportoTotaleConAlcool(macro);
+			Integer resto = (macro.getCalorie_sett()%apportoDiTutti);
+			if (resto<10)
+				return true;
+			else
+				return false;
+		}
+	
+	
 
 		public static Integer calcolaApportoCaloricoAlcoolSettimanale(MacroSettimanali macro){
 			if (macro.getCalorie_sett()!=0)
@@ -24,7 +41,14 @@ public class ManagerMacroSettimanali {
 							Integer appostoDiTuttiTranneAlcool = calcolaApportoSenzaAlcool(macro);
 							return macro.getCalorie_sett() - appostoDiTuttiTranneAlcool;
 						}
-			return null;	
+			return 0;	
+		}
+		
+		public static Integer calcolaApportoGrammiAlcoolSettimanale(MacroSettimanali macro){
+			Integer apporto = calcolaApportoCaloricoAlcoolSettimanale(macro);
+			if (apporto!=null)
+				return apporto/7;
+			return 0;
 		}
 		
 		
@@ -43,7 +67,7 @@ public class ManagerMacroSettimanali {
 		 * @param alcool
 		 * @return
 		 */
-		private Integer calcolaApportoAlcool(Integer alcool){
+		private static Integer calcolaApportoAlcool(Integer alcool){
 			return alcool*7;
 		}
 		
@@ -58,6 +82,22 @@ public class ManagerMacroSettimanali {
 					 calcolaApportoCarboidrati(macro.getCarboidrati_sett());
 		}
 		
+		/**
+		 * ritorna calorie totali
+		 * @param macro
+		 * @return
+		 */
+		public static Integer calcolaApportoTotaleConAlcool(MacroSettimanali macro){
+			return calcolaApportoGrassi(macro.getGrassi_sett()) +
+					calcolaApportoProteine(macro.getProteine_sett())+
+					 calcolaApportoCarboidrati(macro.getCarboidrati_sett())+
+					  calcolaApportoAlcool(macro.getAlcool_sett())
+					 ;
+		}
+
+
+
+
 		
 		
 }

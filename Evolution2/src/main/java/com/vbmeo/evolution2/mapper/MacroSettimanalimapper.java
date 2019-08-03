@@ -27,7 +27,7 @@ public interface MacroSettimanalimapper {
 	public void insert(MacroSettimanali macroSettimanali);
 
 	@Select("SELECT * FROM dati_macro WHERE data = #{data}")
-	public MacroSettimanali getByDate(Date data);
+	public List<MacroSettimanali> getByDate(Date data);
 
 	@Select("select * from dati_macro where id=#{id}")
 	public MacroSettimanali getById(Integer id);
@@ -43,4 +43,7 @@ public interface MacroSettimanalimapper {
 			+ "proteine_sett=#{proteine_sett}, grassi_sett=#{grassi_sett}, alcool_sett=#{alcool_sett} "
 			+ "where id=#{id}")
 	public void update(MacroSettimanali macroSettimanali);
+
+	@Select("select data from dati_macro order by data DESC LIMIT 1")
+	public Date getLastDate();
 }

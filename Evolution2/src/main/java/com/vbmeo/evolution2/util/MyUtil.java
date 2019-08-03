@@ -18,11 +18,13 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
+
 
 
 
@@ -49,6 +51,8 @@ public class MyUtil {
 	public enum TipoDiPeriodo {
 		millisecondi, secondi, minuti, ore, giorni, mesi, anni
 	}
+	
+	
 
 	public static boolean isNumeric(String stringa) {
 		return StringUtils.isNumeric(stringa);
@@ -232,13 +236,24 @@ public class MyUtil {
 		return true;
 	}
 	
+	
+	
+	public static boolean controlloDataSql(String dataStringa) {
+		try {
+			java.sql.Date sqlStartDate = java.sql.Date.valueOf(dataStringa);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
 	/**
 	 * ritorna null se non va bene
 	 * @param dataYyyyMMdd
 	 * @return
 	 */
 	public static java.sql.Date convertDateinSqlDate(String dataYyyyMMdd) {
-		if (eUnaData(dataYyyyMMdd)) {
+		if (controlloDataSql(dataYyyyMMdd)) {
 			java.sql.Date sqlStartDate = java.sql.Date.valueOf(dataYyyyMMdd); 
 			return sqlStartDate;
 		} else
@@ -1591,6 +1606,17 @@ public class MyUtil {
 			if (bracciodxintiro>0)
 				return true;
 		return false;
+	}
+
+	public static java.sql.Date addDayToDateSQl(java.sql.Date data) {
+		if (data!=null){
+			Calendar c = Calendar.getInstance(); 
+			c.setTime(data); 
+			c.add(Calendar.DATE, 7);
+			java.sql.Date startDate= new java.sql.Date(c.getTimeInMillis());
+			return startDate;
+		}
+		return null;
 	}
 
 

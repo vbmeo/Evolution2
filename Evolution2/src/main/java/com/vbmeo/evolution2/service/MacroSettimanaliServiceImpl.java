@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,32 +51,47 @@ public class MacroSettimanaliServiceImpl implements MacroSettimanaliService {
 	 */
 	//questo non va nel mapper, chiamerà poi insert con oggetto
 	@Override
-	public String insert(String dataYyyyMMdd, Integer calorie_sett,
+	public String insert(java.sql.Date dataYyyyMMdd, Integer calorie_sett,
 			Integer carboidrati_sett, Integer proteine_sett,
 			Integer grassi_sett, Integer alcool_sett) {
 		
 		
-		//controllo data 
-		Date dataSql = MyUtil.convertDateinSqlDate(dataYyyyMMdd);
-		if (dataSql==null)
-			return "Errore nella conversione data occorre che sia nel formato 2018-12-31";
 		
 		
-		MacroSettimanali macro = new MacroSettimanali(dataSql,
+		
+		
+		MacroSettimanali macro = new MacroSettimanali(dataYyyyMMdd,
 				calorie_sett,carboidrati_sett,proteine_sett,grassi_sett,alcool_sett);
 		
-	
+		//controllo data doppia
+		List<MacroSettimanali> macroGiaPresente = getByDate(dataYyyyMMdd);
+		if (macroGiaPresente!=null&&macroGiaPresente.size()>0)
+			return "Data già presente nell'archivio...";
 		
 		
+		//controllo tipo di calcolo da effettuare
+		//se manca alcool o cal totali
 		if (alcool_sett==0){
 			System.out.println("alcool settimanali nullo, procedo col calcolo " + calorie_sett);
-			int apportoAlcool = managerMacroSettimanali.calcolaApportoCaloricoAlcoolSettimanale(macro);
+			int apportoAlcool = managerMacroSettimanali.calcolaApportoGrammiAlcoolSettimanale(macro);
 			macro.setAlcool_sett(apportoAlcool);
 			System.out.println("apporto alcool calcolato in " + apportoAlcool);
-		}else
+		}else if (calorie_sett==0){
+			//da calcolare calorie totali			
+			int calTotali = managerMacroSettimanali.calcolaApportoTotaleConAlcool(macro);
+			System.out.println("calorie totali non specificate, procedo col calcolo... calcolate in " + calTotali);
+			macro.setCalorie_sett(calTotali);
+		}else{
+			//controllo se i dati corrispondono
 			System.out.println("apporto alcool già immesso " + alcool_sett);
+			boolean datiAttendibili = managerMacroSettimanali.verificaVeridicitaDatiCalorieConAlcool(macro);
+			if (!datiAttendibili){
+				System.out.println("apporto alcool errato o dati non attendibili " + alcool_sett);
+				return "Dati immessi non sono attendibili, il calcolo dei singoli macro non corrisponde alle calorie totali";
+			}
 			
-		
+			
+		}
 		insert(macro);
 		
 		return null;
@@ -83,7 +100,7 @@ public class MacroSettimanaliServiceImpl implements MacroSettimanaliService {
 	
 	
 	@Override
-	public MacroSettimanali getByDate(Date data) {
+	public List<MacroSettimanali> getByDate(Date data) {
 		return macroSettimanalimapper.getByDate(data);
 	}
 
@@ -109,6 +126,44 @@ public class MacroSettimanaliServiceImpl implements MacroSettimanaliService {
 
 
 
+	@Override
+	public Date getLastDate() {
+		return macroSettimanalimapper.getLastDate();
+	}
+
+	@Override
+	public String update(Integer id, Date data, Integer calorie_sett,
+			Integer carboidrati_sett, Integer proteine_sett,
+			Integer grassi_sett, Integer alcool_sett) {
+		// TODO Auto-generated method stub
+		
+		MacroSettimanali macoToUpdate = new MacroSettimanali(id, data, calorie_sett, carboidrati_sett, proteine_sett, grassi_sett, alcool_sett);
+		//controllo tipo di calcolo da effettuare
+				//se manca alcool o cal totali
+				if (alcool_sett==0){
+					System.out.println("alcool settimanali nullo, procedo col calcolo " + calorie_sett);
+					int apportoAlcool = managerMacroSettimanali.calcolaApportoGrammiAlcoolSettimanale(macoToUpdate);
+					macoToUpdate.setAlcool_sett(apportoAlcool);
+					System.out.println("apporto alcool calcolato in " + apportoAlcool);
+				}else if (calorie_sett==0){
+					//da calcolare calorie totali			
+					int calTotali = managerMacroSettimanali.calcolaApportoTotaleConAlcool(macoToUpdate);
+					System.out.println("calorie totali non specificate, procedo col calcolo... calcolate in " + calTotali);
+					macoToUpdate.setCalorie_sett(calTotali);
+				}else{
+					//controllo se i dati corrispondono
+					System.out.println("apporto alcool già immesso " + alcool_sett);
+					boolean datiAttendibili = managerMacroSettimanali.verificaVeridicitaDatiCalorieConAlcool(macoToUpdate);
+					if (!datiAttendibili){
+						System.out.println("apporto alcool errato o dati non attendibili " + alcool_sett);
+						return "Dati immessi non sono attendibili, il calcolo dei singoli macro non corrisponde alle calorie totali";
+					}
+					
+					
+				}
+				update(macoToUpdate);
+		return null;//tutto ok
+	}
 
 
 
