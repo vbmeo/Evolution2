@@ -4,8 +4,6 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -105,6 +103,14 @@ public class MacroSettimanaliServiceImpl implements MacroSettimanaliService {
 	}
 
 	@Override
+	public Integer getByDateMese(Date data) {
+		Date data4SetimanePrima = MyUtil.less4WeekToDateSQl(data);	
+		Integer calorieTotali = macroSettimanalimapper.getCalByDataToDate(data4SetimanePrima, data);		
+		return calorieTotali;
+	}
+	
+	
+	@Override
 	public List<MacroSettimanali> getAll() {
 		return macroSettimanalimapper.getAll();
 	}
@@ -163,6 +169,19 @@ public class MacroSettimanaliServiceImpl implements MacroSettimanaliService {
 				}
 				update(macoToUpdate);
 		return null;//tutto ok
+	}
+
+	/**
+	 * ritorna ultime due calorie settimanali immesse, per fare media calorie ultime due settimane
+	 */
+	@Override
+	public List<Integer> getLastTwoCalorieSettimanali() {
+		return macroSettimanalimapper.getLastTwoCalorieSettimanali();
+	}
+
+	@Override
+	public List<Integer> getLastTwoCarboSettimanali() {
+		return macroSettimanalimapper.getLastTwoCarboSettimanali();
 	}
 
 

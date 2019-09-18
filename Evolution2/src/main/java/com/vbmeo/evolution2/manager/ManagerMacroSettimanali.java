@@ -25,7 +25,7 @@ public class ManagerMacroSettimanali {
 		public static boolean verificaVeridicitaDatiCalorieConAlcool(MacroSettimanali macro){
 			Integer apportoDiTutti = calcolaApportoTotaleConAlcool(macro);
 			Integer resto = (macro.getCalorie_sett()%apportoDiTutti);
-			if (resto<10)
+			if (resto<5)
 				return true;
 			else
 				return false;

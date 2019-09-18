@@ -49,6 +49,7 @@
 		<beans:property name="dataSource" ref="dataSource" />
 <!-- 		N.B. TYPEaLIAS SCANNER -->
 		<beans:property name="typeAliasesPackage" value="com.cyberx.signup.controller.model" />
+<!-- 		quanto segue non utilizzato, questo non va con xml ma con le annotation -->
 		<beans:property name="mapperLocations"	value="classpath*:com/vbmeo/evolution2/mapper/*.xml" />
 	</beans:bean>
  

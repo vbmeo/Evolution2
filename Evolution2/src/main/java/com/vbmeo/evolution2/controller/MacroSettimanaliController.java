@@ -55,8 +55,31 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 		 */
 		@GetMapping(value = "/macro/lastdate")
 		public Date lastData() {
-			Date data =  MyUtil.addDayToDateSQl(macroSettimanaliService.getLastDate());
+			Date data =  MyUtil.addOneWeekToDateSQl(macroSettimanaliService.getLastDate());
 			return data;
+		}
+		
+		
+		
+		@GetMapping(value = "/macro/lasttwocal")
+		public Integer lastTwoCalorieSettimanali() {
+			List<Integer> ultimeDueCal = macroSettimanaliService.getLastTwoCalorieSettimanali();
+			if (ultimeDueCal.size()>1){
+				int media=(ultimeDueCal.get(0)+ultimeDueCal.get(1))/2;
+				return media;
+			}
+			return null;
+		}
+		
+		
+		@GetMapping(value = "/macro/lasttwocarbo")
+		public Integer lastTwoCarboSettimanali() {
+			List<Integer> ultimeDueCal = macroSettimanaliService.getLastTwoCarboSettimanali();
+			if (ultimeDueCal.size()>1){
+				int media=(ultimeDueCal.get(0)+ultimeDueCal.get(1))/2;
+				return media;
+			}
+			return null;
 		}
 		
 		
@@ -88,7 +111,38 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 		}
 
 		
+		@ResponseBody
+		@GetMapping(value = "/macro/bydate/{dataInfo}")//non aggiungere altro altrimenti non legge il parametro
+		public List<MacroSettimanali> getByDate(@PathVariable String dataInfo) {
+			//controllo data 
+			Date dataSql = null;
+			if (MyUtil.controlloDataSql(dataInfo))
+				dataSql = MyUtil.convertDateinSqlDate(dataInfo);
+				if (dataSql!=null) {
+					List<MacroSettimanali> listaDaUnoSolo = macroSettimanaliService.getByDate(dataSql);
+					return listaDaUnoSolo;
+				}
+				return null;
+		}
 
+		
+		@CrossOrigin
+		@ResponseBody
+		@GetMapping(value = "/macro/bydatemese/{dataInfo}")//non aggiungere altro altrimenti non legge il parametro
+		public Integer getByDateMesePrima(@PathVariable String dataInfo) {
+			//controllo data 
+			Date dataSql = null;
+			if (MyUtil.controlloDataSql(dataInfo))
+				dataSql = MyUtil.convertDateinSqlDate(dataInfo);
+				if (dataSql!=null) {
+					Integer calorieTotali = macroSettimanaliService.getByDateMese(dataSql);
+					return calorieTotali;
+				}
+				return 0;
+		}
+
+		
+		
 		
 		/**
 		 * ----------------------delete-----------------------------
@@ -112,6 +166,7 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 
 		}
 		
+		//UPDATE E INSERT
 		//con parametri separati
 		//usato sia per inserimento che per update
 		@CrossOrigin

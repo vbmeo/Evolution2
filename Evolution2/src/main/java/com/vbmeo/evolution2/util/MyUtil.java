@@ -15,11 +15,13 @@ import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -33,12 +35,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.vbmeo.evolution2.controller.MisureController;
 
 
 public class MyUtil {
+
+	
 	private static final Logger logger = Logger.getLogger(MyUtil.class.getName());
 	private static final String formatoData= Costanti.formati.FORMATO_DATA_STRINGA;
 	public static final String A_CAPO = "\r\n";
@@ -1608,7 +1614,7 @@ public class MyUtil {
 		return false;
 	}
 
-	public static java.sql.Date addDayToDateSQl(java.sql.Date data) {
+	public static java.sql.Date addOneWeekToDateSQl(java.sql.Date data) {
 		if (data!=null){
 			Calendar c = Calendar.getInstance(); 
 			c.setTime(data); 
@@ -1619,10 +1625,126 @@ public class MyUtil {
 		return null;
 	}
 
+	public static java.sql.Date add4WeekToDateSQl(java.sql.Date data) {
+		if (data!=null){
+			Calendar c = Calendar.getInstance(); 
+			c.setTime(data); 
+			c.add(Calendar.DATE, 28);
+			java.sql.Date startDate= new java.sql.Date(c.getTimeInMillis());
+			return startDate;
+		}
+		return null;
+	}
 
-
-
+	public static java.sql.Date less4WeekToDateSQl(java.sql.Date data) {
+		if (data!=null){
+			Calendar c = Calendar.getInstance(); 
+			c.setTime(data); 
+			c.add(Calendar.DATE, -28);
+			java.sql.Date startDate= new java.sql.Date(c.getTimeInMillis());
+			return startDate;
+		}
+		return null;
+	}
 	
 	
+
+	/**
+	 * restituisce ultimo giorno del mese data una data
+	 */
+	public static java.sql.Date getLastDateOfMounth(Date data){		
+		Calendar c = Calendar.getInstance();
+		c.setTime(data);
+		c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+		java.sql.Date ultimaData = new java.sql.Date(c.getTimeInMillis());
+		return ultimaData;
+	}
+	
+	/**
+	 * ritorna calendar settato ad una data, con il quale ci si può fare i conti
+	 * formato esempio "yyyy-MM-dd" x sql server
+	 * @param data
+	 * @param formato
+	 */
+	public static Calendar setcalendarToDateString(String dataStringa, String formato) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
+		java.util.Date data = null;
+		try {
+			data = dateFormat.parse(dataStringa);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Calendar c = Calendar.getInstance();
+		c.setTime(data);
+		return c;
+	}
+
+	public static java.sql.Date addDayToDateSQl(java.sql.Date data, Integer numberofDay) {
+		if (data!=null){
+			Calendar c = Calendar.getInstance(); 
+			c.setTime(data); 
+			c.add(Calendar.DATE, numberofDay);
+			java.sql.Date startDate= new java.sql.Date(c.getTimeInMillis());
+			return startDate;
+		}
+		return null;
+	}
+	
+	
+	
+	/**
+	 * in seguito a problemi con dati float
+	 * 
+	 * @return
+	 */
+	public static double troncaCifreDec(double v, int cifreDecimali) {
+		double mult = Math.pow(10, cifreDecimali);
+		return Math.floor(v*mult) / mult;
+	}
+	
+	public static java.sql.Date nextMonday(){
+
+		Date today = getToday();
+		String giornoInLettere = getDayOfTheDate(today);
+		int aumentareDiNGiorni=0;
+		
+		if (giornoInLettere.equals("lun")) {
+			aumentareDiNGiorni=0;
+		}else if (giornoInLettere.equals("mar")) {
+			aumentareDiNGiorni=6;
+		}else if (giornoInLettere.equals("mer")) {
+			aumentareDiNGiorni=5;
+		}else if (giornoInLettere.equals("gio")) {
+			aumentareDiNGiorni=4;
+		}else if (giornoInLettere.equals("ven")) {
+			aumentareDiNGiorni=3;
+		}else if (giornoInLettere.equals("sab")) {
+			aumentareDiNGiorni=2;
+		}else if (giornoInLettere.equals("dom")) {
+			aumentareDiNGiorni=1;
+		}
+		
+		
+		
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(today); 
+		c.add(Calendar.DATE, aumentareDiNGiorni);
+		today = new Date(c.getTimeInMillis());
+		java.sql.Date primoLunedi= new java.sql.Date(c.getTimeInMillis());
+		return primoLunedi;
+	}
+	
+	
+	
+	
+	
+	public static String getDayOfTheDate(Date yourDate) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(yourDate);
+		String dayOfWeek = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ITALY);
+		logger.info(dayOfWeek);
+		return dayOfWeek;
+		
+	}
 	
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -29,21 +30,31 @@ public interface MacroSettimanalimapper {
 	@Select("SELECT * FROM dati_macro WHERE data = #{data}")
 	public List<MacroSettimanali> getByDate(Date data);
 
+	@Select("SELECT SUM(calorie_sett) as calorie_sett  FROM dati_macro WHERE data >= #{dataInzio} and data <= #{dataFine} ")
+	public Integer getCalByDataToDate(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine);
+	
+	
 	@Select("select * from dati_macro where id=#{id}")
 	public MacroSettimanali getById(Integer id);
 
-	@Select("select * from dati_macro order by data DESC")
+	@Select("select * from dati_macro order by data")// order by data DESC
 	public List<MacroSettimanali> getAll();
 
 	@Delete("delete from dati_macro where id=#{id}")
 	public void delete(int id);
 
 	@Update("update dati_macro set "
-			+ "data=#{data}, calorie_sett=#{calorie_sett}, lastName=#{carboidrati_sett}, userName=#{carboidrati_sett}, "
+			+ "data=#{data}, calorie_sett=#{calorie_sett}, carboidrati_sett=#{carboidrati_sett}, "
 			+ "proteine_sett=#{proteine_sett}, grassi_sett=#{grassi_sett}, alcool_sett=#{alcool_sett} "
 			+ "where id=#{id}")
 	public void update(MacroSettimanali macroSettimanali);
 
 	@Select("select data from dati_macro order by data DESC LIMIT 1")
 	public Date getLastDate();
+	
+	@Select("select calorie_sett from dati_macro order by data DESC LIMIT 2")
+	public List<Integer> getLastTwoCalorieSettimanali();
+
+	@Select("select carboidrati_sett from dati_macro order by data DESC LIMIT 2")
+	public List<Integer> getLastTwoCarboSettimanali();
 }

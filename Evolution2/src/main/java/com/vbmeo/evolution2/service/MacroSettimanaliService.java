@@ -4,8 +4,6 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.vbmeo.evolution2.model.MacroSettimanali;
 
 
@@ -41,4 +39,10 @@ public interface MacroSettimanaliService extends BaseSql<MacroSettimanali> {
 	List<MacroSettimanali> getByDate(Date data);
 	
 	Date getLastDate();
+	
+	List<Integer> getLastTwoCalorieSettimanali();
+
+	List<Integer> getLastTwoCarboSettimanali();
+
+	Integer getByDateMese(Date data);
 }
