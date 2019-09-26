@@ -45,4 +45,6 @@ public interface MacroSettimanaliService extends BaseSql<MacroSettimanali> {
 	List<Integer> getLastTwoCarboSettimanali();
 
 	Integer getByDateMese(Date data);
+
+	Date getDateMesePrima(Date data);
 }

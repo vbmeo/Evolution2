@@ -109,6 +109,11 @@ public class MacroSettimanaliServiceImpl implements MacroSettimanaliService {
 		return calorieTotali;
 	}
 	
+	@Override
+	public Date getDateMesePrima(Date data) {
+		Date data4SetimanePrima = MyUtil.less4WeekToDateSQl(data);
+		return data4SetimanePrima;
+	}
 	
 	@Override
 	public List<MacroSettimanali> getAll() {

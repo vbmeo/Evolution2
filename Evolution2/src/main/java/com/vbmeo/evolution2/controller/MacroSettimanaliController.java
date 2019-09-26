@@ -59,7 +59,11 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 			return data;
 		}
 		
-		
+		@GetMapping(value = "/macro/realylastdate")
+		public Date realylastdate() {
+			Date data =  macroSettimanaliService.getLastDate();
+			return data;
+		}
 		
 		@GetMapping(value = "/macro/lasttwocal")
 		public Integer lastTwoCalorieSettimanali() {
@@ -142,6 +146,22 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 		}
 
 		
+		
+		@CrossOrigin
+		@ResponseBody
+		@GetMapping(value = "/macro/getdatemese/{dataInfo}")//non aggiungere altro altrimenti non legge il parametro
+		public Date getDateMesePrima(@PathVariable String dataInfo) {
+			//controllo data 
+			Date dataSql = null;
+			if (MyUtil.controlloDataSql(dataInfo))
+				dataSql = MyUtil.convertDateinSqlDate(dataInfo);
+				if (dataSql!=null) {
+					Date date = macroSettimanaliService.getDateMesePrima(dataSql);
+					return date;
+				}
+				return null;
+		}
+
 		
 		
 		/**

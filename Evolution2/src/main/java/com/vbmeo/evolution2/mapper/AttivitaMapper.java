@@ -197,6 +197,18 @@ public interface AttivitaMapper {
 	public List<Attivita> getDispendiEnergeticiSettimanaliNonAVuotoMensili(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
 			
 	
+	/**
+	 * da lista di attività non somma gli energetici o le ore
+	 * perchè raggruppa per date fine settimana
+	 * @param dataInzio
+	 * @param dataFine
+	 * @return
+	 */
+	@Select("SELECT data_fine_settimana, SUM(dispendio_energetico) as dispendio_energetico, SUM(quantita_in_ore) AS quantita_in_ore "
+			+ "FROM evolution.attivita_fisiche "
+			+ "WHERE a_vuoto=false and data_fine_settimana >= #{dataInzio} and data_fine_settimana <= #{dataFine} "
+			+ "group by data_fine_settimana ")
+	public List<Attivita> getDispendiEnergeticiSettimanaliNonAVuotoTraDueDate(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
 	
 	
 	

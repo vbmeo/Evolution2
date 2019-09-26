@@ -1640,7 +1640,7 @@ public class MyUtil {
 		if (data!=null){
 			Calendar c = Calendar.getInstance(); 
 			c.setTime(data); 
-			c.add(Calendar.DATE, -28);
+			c.add(Calendar.DATE, -21);
 			java.sql.Date startDate= new java.sql.Date(c.getTimeInMillis());
 			return startDate;
 		}
@@ -1692,14 +1692,20 @@ public class MyUtil {
 	
 	
 	
+	public static double parseDoubleNCifre(Integer numero,Integer nCifreDecimali) {
+		double numerodouble = numero;
+		numerodouble = MyUtil.troncaCifreDec(numerodouble,nCifreDecimali);
+		return numerodouble;
+	}
+	
 	/**
 	 * in seguito a problemi con dati float
-	 * 
+	 * arrotondamento classico
 	 * @return
 	 */
 	public static double troncaCifreDec(double v, int cifreDecimali) {
 		double mult = Math.pow(10, cifreDecimali);
-		return Math.floor(v*mult) / mult;
+		return Math.round(v*mult) / mult;
 	}
 	
 	public static java.sql.Date nextMonday(){

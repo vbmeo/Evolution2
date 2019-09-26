@@ -62,6 +62,7 @@
 	</beans:bean>
 	
 	 <beans:bean id="ManagerMacroSettimanali" class="com.vbmeo.evolution2.manager.ManagerMacroSettimanali"/> 
-	
+	 <beans:bean id="ManagerGeneral" class="com.vbmeo.evolution2.manager.ManagerGeneral"/>
+	 
 </beans:beans>
 

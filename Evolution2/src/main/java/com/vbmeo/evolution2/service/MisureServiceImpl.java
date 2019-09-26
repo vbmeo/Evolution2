@@ -190,11 +190,11 @@ public class MisureServiceImpl implements MisureService{
 	public double getDifferenzaPesoTraDueDate(Date primaData, Date menoSecondaData) {
 		Float primoPeso = misureMapper.getPesoDaDate(primaData);
 		Float secondoPeso = misureMapper.getPesoDaDate(menoSecondaData);
-		double primo = MyUtil.troncaCifreDec(primoPeso,1);
-		double secondo = MyUtil.troncaCifreDec(secondoPeso,1);
+		double primo = MyUtil.troncaCifreDec(primoPeso,3);
+		double secondo = MyUtil.troncaCifreDec(secondoPeso,3);
 		if (primo>0&& secondo>0) {
 			double diff =primo- secondo;
-			return MyUtil.troncaCifreDec(diff,1);
+			return diff;
 		}
 		return 0;//instanza float
 	}
@@ -221,11 +221,11 @@ public class MisureServiceImpl implements MisureService{
 	public double getDifferenzaOmbelicoTraDueDate(Date primaData, Date menoSecondaData) {
 		Float primoPeso = misureMapper.getOmbelicoDaDate(primaData);
 		Float secondoPeso = misureMapper.getOmbelicoDaDate(menoSecondaData);
-		double primo = MyUtil.troncaCifreDec(primoPeso,1);
-		double secondo = MyUtil.troncaCifreDec(secondoPeso,1);
+		double primo = MyUtil.troncaCifreDec(primoPeso,3);
+		double secondo = MyUtil.troncaCifreDec(secondoPeso,3);
 		if (primo>0&& secondo>0) {
-			double diff = Math.pow((primo- secondo),1);
-			return MyUtil.troncaCifreDec(diff,1);
+			double diff = secondo- primo;
+			return diff;
 		}
 		return 0;//instanza float
 	}
@@ -236,11 +236,11 @@ public class MisureServiceImpl implements MisureService{
 		Date data4SetimanePrima = MyUtil.less4WeekToDateSQl(dataRichiesta);	
 		Float primoPeso = misureMapper.getOmbelicoDaDate(data4SetimanePrima);
 		Float secondoPeso = misureMapper.getOmbelicoDaDate(dataRichiesta);
-		double primo = MyUtil.troncaCifreDec(primoPeso,2);
-		double secondo = MyUtil.troncaCifreDec(secondoPeso,2);
+		double primo = MyUtil.troncaCifreDec(primoPeso,3);
+		double secondo = MyUtil.troncaCifreDec(secondoPeso,3);
 		if (primo>0&& secondo>0) {
 			double diff =secondo - primo;
-			return MyUtil.troncaCifreDec(diff,1);
+			return diff;
 		}
 		return 0;//instanza float
 	}

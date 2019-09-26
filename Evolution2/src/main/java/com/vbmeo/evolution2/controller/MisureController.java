@@ -143,7 +143,7 @@ public class MisureController {
 					if (dataSql!=null) {
 						Date dataSettimanaPrecedente=MyUtil.addDayToDateSQl(dataSql,-7);
 						double differenza = misureService.getDifferenzaPesoTraDueDate(dataSql,dataSettimanaPrecedente);
-						return differenza;
+						return MyUtil.troncaCifreDec(differenza,1);
 					}
 						
 					return 0f;//istanza float
@@ -160,7 +160,7 @@ public class MisureController {
 					dataSql = MyUtil.convertDateinSqlDate(dataInfo);
 					if (dataSql!=null) {
 						double differenza = misureService.getDifferenzaPesoTradataE4SettimanePrima(dataSql);
-						return  MyUtil.troncaCifreDec(differenza,2);
+						return  MyUtil.troncaCifreDec(differenza,1);
 					}
 						
 					return 0f;//istanza float
@@ -179,7 +179,7 @@ public class MisureController {
 					if (dataSql!=null) {
 						Date dataSettimanaPrecedente=MyUtil.addDayToDateSQl(dataSql,-7);
 						double differenza = misureService.getDifferenzaOmbelicoTraDueDate(dataSql,dataSettimanaPrecedente);
-						return differenza;
+						return MyUtil.troncaCifreDec(differenza,1);
 					}
 						
 					return 0f;//istanza float
@@ -194,7 +194,7 @@ public class MisureController {
 					dataSql = MyUtil.convertDateinSqlDate(dataInfo);
 					if (dataSql!=null) {
 						double differenza = misureService.getDifferenzaOmbelicoTradataE4SettimanePrima(dataSql);
-						return differenza;
+						return MyUtil.troncaCifreDec(differenza,1);
 					}
 						
 					return 0f;//istanza float
