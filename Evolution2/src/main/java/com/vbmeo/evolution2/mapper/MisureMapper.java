@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -64,6 +65,16 @@ public interface MisureMapper {
 	@Select("SELECT ombelico FROM evolution.dati_misure where data = #{data}") 
 	public Float getOmbelicoDaDate(Date data);
 	
-	
+	/**
+	 * per selezionare solo le date del lunedì, l'ho messo in join con le macro, solo le date che corrispondono alle macro vengono prese in considerazione
+	 * @param dataInzio
+	 * @param dataFine
+	 * @return
+	 */
+	@Select("SELECT dati_misure.* FROM dati_misure "
+			+ "join dati_macro on dati_macro.data = dati_misure.data "
+			+ "where dati_misure.data >= #{dataInzio} and dati_misure.data <= #{dataFine}")
+	public List<Misure> getMisureTraDueDateCheCompaionoInMacro(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine);
+
 	
 }

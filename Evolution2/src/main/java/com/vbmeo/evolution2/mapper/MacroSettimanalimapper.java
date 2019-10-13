@@ -57,4 +57,17 @@ public interface MacroSettimanalimapper {
 
 	@Select("select carboidrati_sett from dati_macro order by data DESC LIMIT 2")
 	public List<Integer> getLastTwoCarboSettimanali();
+	
+	@Select("SELECT alcool_sett  FROM dati_macro WHERE data >= #{dataInzio} and data <= #{dataFine} ")
+	public List<Integer> getAlcoolByDataToDate(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine);
+	
+	@Select("SELECT (alcool_sett+grassi_sett)  FROM dati_macro WHERE data >= #{dataInzio} and data <= #{dataFine} ")
+	public List<Integer> getAlcoolPiuGrassiByDataToDate(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine);
+	
+	
+	@Select("SELECT * FROM dati_macro WHERE data >= #{dataInzio} and data <= #{dataFine}")
+	public List<MacroSettimanali> getAllFromTwoDate(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine);
+	
+	
+	
 }

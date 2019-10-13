@@ -96,7 +96,7 @@ public interface AttivitaMapper {
 	+ "FROM evolution.attivita_fisiche "
 	+ "WHERE a_vuoto=true and data_fine_settimana <= CURDATE() "
 	+ "GROUP BY data_fine_settimana")
-	public List<Attivita> getDispendiEnergeticiSettimanaliAVuoto(); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliAVuoto(); 
 	
 	
 	/**
@@ -107,7 +107,7 @@ public interface AttivitaMapper {
 	+ "FROM evolution.attivita_fisiche "
 	+ "WHERE a_vuoto=false and data_fine_settimana <= CURDATE() "
 	+ "GROUP BY data_fine_settimana")
-	public List<Attivita> getDispendiEnergeticiSettimanaliNonAVuoto(); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliNonAVuoto(); 
 	
 	/**
 	 * FA LA SOMMA DELLE CALORIE SPESE NELLA SETTIMANA PER tutte le ATTIVITA'
@@ -117,7 +117,7 @@ public interface AttivitaMapper {
 	+ "FROM evolution.attivita_fisiche "
 	+ "WHERE data_fine_settimana <= CURDATE() "
 	+ "GROUP BY data_fine_settimana")
-	public List<Attivita> getDispendiEnergeticiSettimanaliTotali(); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliTotali(); 
 	
 	
 	/**
@@ -129,7 +129,7 @@ public interface AttivitaMapper {
 	+ "join evolution.attivita_fisiche_dispendio on evolution.attivita_fisiche.id_attivita = evolution.attivita_fisiche_dispendio.id "
 	+ "WHERE attivita_fisiche_dispendio.aerobica = 1 and data_fine_settimana <= CURDATE() "
 	+ "GROUP BY data_fine_settimana")
-	public List<Attivita> getDispendiEnergeticiSettimanaliAerobici(); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliAerobici(); 
 	
 	
 	/**
@@ -141,7 +141,7 @@ public interface AttivitaMapper {
 	+ "join evolution.attivita_fisiche_dispendio on evolution.attivita_fisiche.id_attivita = evolution.attivita_fisiche_dispendio.id "
 	+ "WHERE attivita_fisiche_dispendio.aerobica = 0 and data_fine_settimana <= CURDATE() "
 	+ "GROUP BY data_fine_settimana")
-	public List<Attivita> getDispendiEnergeticiSettimanaliNonAerobici(); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliNonAerobici(); 
 	
 	
 	
@@ -154,8 +154,15 @@ public interface AttivitaMapper {
 	+ "FROM evolution.attivita_fisiche "
 	+ "WHERE a_vuoto=true and data_fine_settimana = #{inData} "
 	+ "GROUP BY data_fine_settimana")
-	public List<Attivita> getDispendiEnergeticiSettimanaliAVuotoData(Date inData); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliAVuotoData(Date inData); 
 	
+	
+	@Select("SELECT data_fine_settimana, SUM(dispendio_energetico) as dispendio_energetico, SUM(quantita_in_ore) AS quantita_in_ore "
+			+ "FROM evolution.attivita_fisiche "
+			+ "WHERE a_vuoto=true and data_fine_settimana >= #{dataInzio} and data_fine_settimana <= #{dataFine} "
+			+ "GROUP BY data_fine_settimana")
+			public List<Attivita> getDispendiEnergeticiEOreSettimanaliAVuotoTraDueDate(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
+			
 	
 	/**
 	 * FA LA SOMMA DELLE CALORIE SPESE NELLA SETTIMANA PER ATTIVITA' NON A VUOTO
@@ -165,7 +172,7 @@ public interface AttivitaMapper {
 	+ "FROM evolution.attivita_fisiche "
 	+ "WHERE a_vuoto=false and data_fine_settimana = #{inData}"
 	+ "GROUP BY data_fine_settimana")
-	public List<Attivita> getDispendiEnergeticiSettimanaliNonAVuotoData(Date inData); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliNonAVuotoData(Date inData); 
 	
 	/**
 	 * FA LA SOMMA DELLE CALORIE SPESE NELLA SETTIMANA PER tutte le ATTIVITA'
@@ -175,26 +182,32 @@ public interface AttivitaMapper {
 	+ "FROM evolution.attivita_fisiche "
 	+ "WHERE data_fine_settimana = #{inData} "
 	+ "GROUP BY data_fine_settimana")
-	public List<Attivita> getDispendiEnergeticiSettimanaliTotaliData(Date inData); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliTotaliData(Date inData); 
 	
 	
 	
 	@Select("SELECT data_fine_settimana, SUM(dispendio_energetico) as dispendio_energetico, SUM(quantita_in_ore) AS quantita_in_ore "
 			+ "FROM evolution.attivita_fisiche "
 			+ "WHERE data_fine_settimana >= #{dataInzio} and data_fine_settimana <= #{dataFine} ")//
-	public List<Attivita> getDispendiEnergeticiSettimanaliTotaliMensili(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliTraDueDate(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
+	
+	@Select("SELECT data_fine_settimana, SUM(dispendio_energetico) as dispendio_energetico, SUM(quantita_in_ore) AS quantita_in_ore "
+			+ "FROM evolution.attivita_fisiche "
+			+ "WHERE data_fine_settimana >= #{dataInzio} and data_fine_settimana <= #{dataFine} "
+			+ "GROUP BY data_fine_settimana")//
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliTraDueDateDiviseInSettimane(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
 	
 	
 	@Select("SELECT data_fine_settimana, SUM(dispendio_energetico) as dispendio_energetico, SUM(quantita_in_ore) AS quantita_in_ore "
 			+ "FROM evolution.attivita_fisiche "
 			+ "WHERE a_vuoto=true and data_fine_settimana >= #{dataInzio} and data_fine_settimana <= #{dataFine} ")
-	public List<Attivita> getDispendiEnergeticiSettimanaliAVuotoMensili(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliAVuotoMensili(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
 			
 	
 	@Select("SELECT data_fine_settimana, SUM(dispendio_energetico) as dispendio_energetico, SUM(quantita_in_ore) AS quantita_in_ore "
 			+ "FROM evolution.attivita_fisiche "
 			+ "WHERE a_vuoto=false and data_fine_settimana >= #{dataInzio} and data_fine_settimana <= #{dataFine} ")
-	public List<Attivita> getDispendiEnergeticiSettimanaliNonAVuotoMensili(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliNonAVuotoMensili(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
 			
 	
 	/**
@@ -208,7 +221,7 @@ public interface AttivitaMapper {
 			+ "FROM evolution.attivita_fisiche "
 			+ "WHERE a_vuoto=false and data_fine_settimana >= #{dataInzio} and data_fine_settimana <= #{dataFine} "
 			+ "group by data_fine_settimana ")
-	public List<Attivita> getDispendiEnergeticiSettimanaliNonAVuotoTraDueDate(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliNonAVuotoTraDueDate(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
 	
 	
 	
@@ -221,7 +234,15 @@ public interface AttivitaMapper {
 	+ "join evolution.attivita_fisiche_dispendio on evolution.attivita_fisiche.id_attivita = evolution.attivita_fisiche_dispendio.id "
 	+ "WHERE attivita_fisiche_dispendio.aerobica = 1 and data_fine_settimana = #{inData} "
 	+ "GROUP BY data_fine_settimana")
-	public List<Attivita> getDispendiEnergeticiSettimanaliAerobiciData(Date inData); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliAerobiciData(Date inData); 
+	
+	
+	@Select("SELECT data_fine_settimana, SUM(dispendio_energetico) as dispendio_energetico, SUM(quantita_in_ore) AS quantita_in_ore "
+			+ "FROM evolution.attivita_fisiche "
+			+ "join evolution.attivita_fisiche_dispendio on evolution.attivita_fisiche.id_attivita = evolution.attivita_fisiche_dispendio.id "
+			+ "WHERE attivita_fisiche_dispendio.aerobica = 1 and data_fine_settimana >= #{dataInzio} and data_fine_settimana <= #{dataFine} "
+			+ "GROUP BY data_fine_settimana")
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliAerobiciTraDueDate(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
 	
 	
 	/**
@@ -233,6 +254,16 @@ public interface AttivitaMapper {
 	+ "join evolution.attivita_fisiche_dispendio on evolution.attivita_fisiche.id_attivita = evolution.attivita_fisiche_dispendio.id "
 	+ "WHERE attivita_fisiche_dispendio.aerobica = 0 and data_fine_settimana = #{inData} "
 	+ "GROUP BY data_fine_settimana")
-	public List<Attivita> getDispendiEnergeticiSettimanaliNonAerobiciData(Date inData); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliNonAerobiciData(Date inData); 
+	
+	
+	@Select("SELECT data_fine_settimana, SUM(dispendio_energetico) as dispendio_energetico, SUM(quantita_in_ore) AS quantita_in_ore "
+			+ "FROM evolution.attivita_fisiche "
+			+ "join evolution.attivita_fisiche_dispendio on evolution.attivita_fisiche.id_attivita = evolution.attivita_fisiche_dispendio.id "
+			+ "WHERE attivita_fisiche_dispendio.aerobica = 0 and data_fine_settimana >= #{dataInzio} and data_fine_settimana <= #{dataFine}"
+			+ "GROUP BY data_fine_settimana")
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliNonAerobiciTraDueDate(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
+	
+	
 	
 }

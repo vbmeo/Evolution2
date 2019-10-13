@@ -3,15 +3,15 @@ package com.vbmeo.evolution2.model;
 public class TipiDiGrafici {
 
 	
-	public enum Tipo {
+	public static enum Tipo {
 		//macro
-		Tendenza_Calorie("Tendenza_Calorie"),
-		Tendenza_Carbo("Tendenza_Carbo"),
+		Calorie("Calorie"),
+		Carbo("Carbo"),
 		Alcool_e_grassi_eccedenti("Alcool_e_grassi_eccedenti"),
 		Alcool_e_grassi("Alcool_e_grassi"),
 		Grassi("Grassi"),
 		Alcool("Alcool"),
-//		Proteine("Alcool"),
+		Proteine("Proteine"),
 		//misure
 		Peso("Peso"),
 		Ombelico("Ombelico"),

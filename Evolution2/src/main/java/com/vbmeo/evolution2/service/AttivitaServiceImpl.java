@@ -95,71 +95,71 @@ public class AttivitaServiceImpl implements AttivitaService {
 
 	@Override
 	public List<Attivita> getDispendiEnergeticiSettimanaliAVuoto() {
-		return attivitaMapper.getDispendiEnergeticiSettimanaliAVuoto();
+		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliAVuoto();
 	}
 
 	@Override
 	public List<Attivita> getDispendiEnergeticiSettimanaliNonAVuoto() {
-		return attivitaMapper.getDispendiEnergeticiSettimanaliNonAVuoto();
+		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliNonAVuoto();
 	}
 
 	@Override
 	public List<Attivita> getDispendiEnergeticiSettimanaliTotali() {
-		return attivitaMapper.getDispendiEnergeticiSettimanaliTotali();
+		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliTotali();
 	}
 
 	@Override
 	public List<Attivita> getDispendiEnergeticiSettimanaliAerobici() {
-		return attivitaMapper.getDispendiEnergeticiSettimanaliAerobici();
+		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliAerobici();
 	}
 
 	@Override
 	public List<Attivita> getDispendiEnergeticiSettimanaliNonAerobici() {
-		return attivitaMapper.getDispendiEnergeticiSettimanaliNonAerobici();
+		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliNonAerobici();
 	}
 
 	
 	@Override
 	public List<Attivita> getDispendiEnergeticiSettimanaliAVuoto(Date indata) {
-		return attivitaMapper.getDispendiEnergeticiSettimanaliAVuotoData(indata);
+		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliAVuotoData(indata);
 	}
 
 	@Override
 	public List<Attivita> getDispendiEnergeticiSettimanaliNonAVuoto(Date indata) {
-		return attivitaMapper.getDispendiEnergeticiSettimanaliNonAVuotoData(indata);
+		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliNonAVuotoData(indata);
 	}
 
 	@Override
 	public List<Attivita> getDispendiEnergeticiSettimanaliTotali(Date indata) {
-		return attivitaMapper.getDispendiEnergeticiSettimanaliTotaliData(indata);
+		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliTotaliData(indata);
 	}
 
 	@Override
 	public List<Attivita> getDispendiEnergeticiSettimanaliAerobici(Date indata) {
-		return attivitaMapper.getDispendiEnergeticiSettimanaliAerobiciData(indata);
+		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliAerobiciData(indata);
 	}
 
 	@Override
 	public List<Attivita> getDispendiEnergeticiSettimanaliNonAerobici(Date indata) {
-		return attivitaMapper.getDispendiEnergeticiSettimanaliNonAerobiciData(indata);
+		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliNonAerobiciData(indata);
 	}
 
 	@Override
 	public List<Attivita> getDispendiEnergeticiSettimanaliTotaliMensili(Date dataIniziosetimanaRichiesta) {
 		Date data4SetimanePrima = MyUtil.less4WeekToDateSQl(dataIniziosetimanaRichiesta);
-		return attivitaMapper.getDispendiEnergeticiSettimanaliTotaliMensili(data4SetimanePrima, dataIniziosetimanaRichiesta);		
+		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliTraDueDate(data4SetimanePrima, dataIniziosetimanaRichiesta);		
 	}
 	
 	@Override
 	public List<Attivita> getDispendiEnergeticiSettimanaliAVuotoMensili(Date dataIniziosetimanaRichiesta) {
 		Date data4SetimanePrima = MyUtil.less4WeekToDateSQl(dataIniziosetimanaRichiesta);
-		return attivitaMapper.getDispendiEnergeticiSettimanaliAVuotoMensili(data4SetimanePrima, dataIniziosetimanaRichiesta);		
+		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliAVuotoMensili(data4SetimanePrima, dataIniziosetimanaRichiesta);		
 	}
 	
 	@Override
 	public List<Attivita> getDispendiEnergeticiSettimanaliNonAVuotoMensili(Date dataIniziosetimanaRichiesta) {
 		Date data4SetimanePrima = MyUtil.less4WeekToDateSQl(dataIniziosetimanaRichiesta);
-		return attivitaMapper.getDispendiEnergeticiSettimanaliNonAVuotoMensili(data4SetimanePrima, dataIniziosetimanaRichiesta);		
+		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliNonAVuotoMensili(data4SetimanePrima, dataIniziosetimanaRichiesta);		
 	}
 	
 	
