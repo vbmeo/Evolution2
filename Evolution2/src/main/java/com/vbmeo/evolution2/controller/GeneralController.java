@@ -24,8 +24,6 @@ import com.vbmeo.evolution2.model.RigaGraficoCustom;
 public class GeneralController {
 	private static final Logger logger = LoggerFactory.getLogger(GeneralController.class);
 	
-
-
 	@Autowired
 	ManagerGeneral managerGeneral;
 	
@@ -38,22 +36,14 @@ public class GeneralController {
 			//controllo data
 			List<Date> dataDaeA = managerGeneral.controllaDataDeigraficiERimandaDataPrecedenteSeTuttoOk(grafici);
 			if (dataDaeA==null)
-				return null;//new ResponseEntity("La data è di un formato errato deve essere (es. 2014-12-01)" , HttpStatus.NOT_ACCEPTABLE);//mettendo non acettabile riesco a stampare il messaggio in ajax con quello che volgio dire, diventa errore 406
-					
+				return null;//new ResponseEntity("La data è di un formato errato deve essere (es. 2014-12-01)" , HttpStatus.NOT_ACCEPTABLE);//mettendo non acettabile riesco a stampare il messaggio in ajax con quello che volgio dire, diventa errore 406			
 			//creazione grafici, manda anche le date precedente e successiva appena fatte
 			RigaGraficoCustom[] arrayDiTuttiIRisultati = managerGeneral.interrogaDbPerGrafici(grafici,dataDaeA.get(0),dataDaeA.get(1));
 			
 			return arrayDiTuttiIRisultati;
 		}
-		
-		
-		
 		return null;
 	}
-	
-
-	
-	
 	
 }
 

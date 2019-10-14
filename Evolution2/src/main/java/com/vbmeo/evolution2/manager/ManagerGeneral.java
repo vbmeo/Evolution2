@@ -130,40 +130,6 @@ public class ManagerGeneral {
 					if (tipoConfome)
 						contatoreGrafici++;
 				}
-				
-				
-//				else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Ombelico.toString())) {					
-//					inserisciMisuraDaListaMisure(TipiDiGrafici.Tipo.Ombelico,misure,listDiTuttiIRisultati,contatoreGrafici
-//							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Ombelico.toString()); 					
-//					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
-//				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Peso.toString())) {					
-//					inserisciMisuraDaListaMisure(TipiDiGrafici.Tipo.Peso,misure,listDiTuttiIRisultati,contatoreGrafici
-//							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Peso.toString()); 					
-//					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
-//				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Ombelico_mattina_a_vuoto .toString())) {				
-//					inserisciMisuraDaListaMisure(TipiDiGrafici.Tipo.Ombelico_mattina_a_vuoto,misure,listDiTuttiIRisultati,contatoreGrafici
-//							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Ombelico_mattina_a_vuoto.toString()); 					
-//					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
-//				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Bracio_DX_in_tiro.toString())) {				
-//					inserisciMisuraDaListaMisure(TipiDiGrafici.Tipo.Bracio_DX_in_tiro,misure,listDiTuttiIRisultati,contatoreGrafici
-//							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Bracio_DX_in_tiro.toString()); 					
-//					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
-//				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Bracio_DX_steso.toString())) {				
-//					inserisciMisuraDaListaMisure(TipiDiGrafici.Tipo.Bracio_DX_steso,misure,listDiTuttiIRisultati,contatoreGrafici
-//							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Bracio_DX_steso.toString()); 					
-//					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
-//				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Bracio_SX_in_tiro.toString())) {				
-//					inserisciMisuraDaListaMisure(TipiDiGrafici.Tipo.Bracio_SX_in_tiro,misure,listDiTuttiIRisultati,contatoreGrafici
-//							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Bracio_SX_in_tiro.toString()); 					
-//					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
-//				}
-				
-				
-				
-				
-				
-				
-				
 			}//for
 			//trasfomra in array la lista dei dati righe
 			RigaGraficoCustom[] arrayDiTuttiIRisultati = getArrayFromList(listDiTuttiIRisultati);

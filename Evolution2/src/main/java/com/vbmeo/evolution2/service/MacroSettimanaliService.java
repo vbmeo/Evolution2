@@ -3,11 +3,9 @@ package com.vbmeo.evolution2.service;
 import java.sql.Date;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
 import com.vbmeo.evolution2.model.MacroSettimanali;
 
 
-@Service
 public interface MacroSettimanaliService extends BaseSql<MacroSettimanali> {
 	
 	/**

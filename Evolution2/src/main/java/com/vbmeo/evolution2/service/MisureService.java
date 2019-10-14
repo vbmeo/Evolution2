@@ -2,11 +2,8 @@ package com.vbmeo.evolution2.service;
 import java.sql.Date;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.vbmeo.evolution2.model.Misure;
 
-@Service
 public interface MisureService extends BaseSql<Misure> {
 
 	
