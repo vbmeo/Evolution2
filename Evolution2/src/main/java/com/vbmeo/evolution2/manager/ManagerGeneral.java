@@ -20,19 +20,17 @@ import com.vbmeo.evolution2.model.Misure;
 import com.vbmeo.evolution2.model.RigaGraficoCustom;
 import com.vbmeo.evolution2.model.TipiDiGrafici;
 import com.vbmeo.evolution2.model.TipiDiGrafici.Tipo;
+import com.vbmeo.evolution2.service.CharCustomService;
+import com.vbmeo.evolution2.service.CharCustomServiceImpl;
 import com.vbmeo.evolution2.util.MyUtil;
 
 public class ManagerGeneral {
 
 	private static final Logger logger = LoggerFactory.getLogger(ManagerGeneral.class);
-	@Autowired
-	private MacroSettimanalimapper macroSettimanalimapper;
-	@Autowired
-	private AttivitaMapper attivitaMapper;
-	@Autowired
-	private MisureMapper misureMapper;
+
 	
-	
+	@Autowired
+	CharCustomService charCustomService;
 	
 	public RigaGraficoCustom[] interrogaDbPerGrafici(GraficiDaFare[] grafici,Date dataPrecedente, Date dataSuccessiva) {
 		Date dataFineIndicataInArray;
@@ -42,19 +40,19 @@ public class ManagerGeneral {
 		Integer contatoreGrafici=0;
 		
 			//faccio prima le interrogazioni base che possono servire per non ripeterle ad ogni richiesta:
-			List<Misure> misure = misureMapper.getMisureTraDueDateCheCompaionoInMacro(dataPrecedente,dataSuccessiva);
-			List<MacroSettimanali> macro = macroSettimanalimapper.getAllFromTwoDate(dataPrecedente,dataSuccessiva);
+			List<Misure> misure = charCustomService.getMisureTraDueDateCheCompaionoInMacro(dataPrecedente,dataSuccessiva);
+			List<MacroSettimanali> macro = charCustomService.getAllFromTwoDate(dataPrecedente,dataSuccessiva);
 			//giro array grafici
 			for (GraficiDaFare graficoDaFare : grafici) {
 				//solo quelli trovati che corrispondono al title dei tag nel sito html generano grafici
 				//e devono corrispondere all'enum citato
 				if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Attività_a_stomaco_pieno_calorie.toString())) {					
-					List<Attivita> attivita = attivitaMapper.getDispendiEnergeticiEOreSettimanaliNonAVuotoTraDueDate(dataPrecedente,dataSuccessiva);					
+					List<Attivita> attivita = charCustomService.getDispendiEnergeticiEOreSettimanaliNonAVuotoTraDueDate(dataPrecedente,dataSuccessiva);					
 					inserisciDatiDispendiEnergeticiInArrayDaListaAttivita(attivita,listDiTuttiIRisultati,contatoreGrafici
 							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Attività_a_stomaco_pieno_calorie.toString()); 					
 					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
 				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Attività_a_stomaco_pieno_ore.toString())) {
-					 List<Attivita> attivita = attivitaMapper.getDispendiEnergeticiEOreSettimanaliNonAVuotoTraDueDate(dataPrecedente,dataSuccessiva);
+					 List<Attivita> attivita = charCustomService.getDispendiEnergeticiEOreSettimanaliNonAVuotoTraDueDate(dataPrecedente,dataSuccessiva);
 					 inserisciDatiOreInArrayDaListaAttivita(attivita,listDiTuttiIRisultati,contatoreGrafici
 								,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Attività_a_stomaco_pieno_ore.toString()); 	
 					 contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
@@ -67,32 +65,32 @@ public class ManagerGeneral {
 							graficoDaFare.getDataDa(),graficoDaFare.getDataA(), TipiDiGrafici.Tipo.Alcool_e_grassi.toString());
 					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare					
 				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Attività_a_stomaco_vuoto_calorie.toString())) {
-					List<Attivita> attivita = attivitaMapper.getDispendiEnergeticiEOreSettimanaliAVuotoTraDueDate(dataPrecedente,dataSuccessiva);					
+					List<Attivita> attivita = charCustomService.getDispendiEnergeticiEOreSettimanaliAVuotoTraDueDate(dataPrecedente,dataSuccessiva);					
 					inserisciDatiDispendiEnergeticiInArrayDaListaAttivita(attivita,listDiTuttiIRisultati,contatoreGrafici
 							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Attività_a_stomaco_vuoto_calorie.toString()); 					
 					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
 				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Attività_a_stomaco_vuoto_ore.toString())) {
-					List<Attivita> attivita = attivitaMapper.getDispendiEnergeticiEOreSettimanaliAVuotoTraDueDate(dataPrecedente,dataSuccessiva);					
+					List<Attivita> attivita = charCustomService.getDispendiEnergeticiEOreSettimanaliAVuotoTraDueDate(dataPrecedente,dataSuccessiva);					
 					inserisciDatiOreInArrayDaListaAttivita(attivita,listDiTuttiIRisultati,contatoreGrafici
 							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Attività_a_stomaco_vuoto_ore.toString()); 					
 					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
 				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Attività_aerobiche_calorie.toString())) {
-					List<Attivita> attivita = attivitaMapper.getDispendiEnergeticiEOreSettimanaliAerobiciTraDueDate(dataPrecedente,dataSuccessiva);					
+					List<Attivita> attivita = charCustomService.getDispendiEnergeticiEOreSettimanaliAerobiciTraDueDate(dataPrecedente,dataSuccessiva);					
 					inserisciDatiDispendiEnergeticiInArrayDaListaAttivita(attivita,listDiTuttiIRisultati,contatoreGrafici
 							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Attività_aerobiche_calorie.toString()); 					
 					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
 				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Attività_aerobiche_ore.toString())) {
-					List<Attivita> attivita = attivitaMapper.getDispendiEnergeticiEOreSettimanaliAerobiciTraDueDate(dataPrecedente,dataSuccessiva);					
+					List<Attivita> attivita = charCustomService.getDispendiEnergeticiEOreSettimanaliAerobiciTraDueDate(dataPrecedente,dataSuccessiva);					
 					inserisciDatiOreInArrayDaListaAttivita(attivita,listDiTuttiIRisultati,contatoreGrafici
 							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Attività_aerobiche_ore.toString()); 					
 					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
 				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Attività_non_airobiche_calorie_bruciate .toString())) {
-					List<Attivita> attivita = attivitaMapper.getDispendiEnergeticiEOreSettimanaliNonAerobiciTraDueDate(dataPrecedente,dataSuccessiva);					
+					List<Attivita> attivita = charCustomService.getDispendiEnergeticiEOreSettimanaliNonAerobiciTraDueDate(dataPrecedente,dataSuccessiva);					
 					inserisciDatiDispendiEnergeticiInArrayDaListaAttivita(attivita,listDiTuttiIRisultati,contatoreGrafici
 							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Attività_non_airobiche_calorie_bruciate.toString()); 					
 					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
 				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Attività_non_airobiche_ore.toString())) {
-					List<Attivita> attivita = attivitaMapper.getDispendiEnergeticiEOreSettimanaliNonAerobiciTraDueDate(dataPrecedente,dataSuccessiva);					
+					List<Attivita> attivita = charCustomService.getDispendiEnergeticiEOreSettimanaliNonAerobiciTraDueDate(dataPrecedente,dataSuccessiva);					
 					inserisciDatiOreInArrayDaListaAttivita(attivita,listDiTuttiIRisultati,contatoreGrafici
 							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Attività_non_airobiche_ore.toString()); 					
 					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
@@ -113,12 +111,12 @@ public class ManagerGeneral {
 							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Proteine.toString()); 					
 					contatoreGrafici++;//va qui, non alla fine del ciclo perchè il ciclo comprende anche tag che non danno risultati, che non riguardano i grafici da fare
 				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Tutte_le_attività_in_calorie.toString())) {
-					List<Attivita> attivita = attivitaMapper.getDispendiEnergeticiEOreSettimanaliTraDueDateDiviseInSettimane(dataPrecedente,dataSuccessiva);
+					List<Attivita> attivita = charCustomService.getDispendiEnergeticiEOreSettimanaliTraDueDateDiviseInSettimane(dataPrecedente,dataSuccessiva);
 					inserisciDatiDispendiEnergeticiInArrayDaListaAttivita(attivita,listDiTuttiIRisultati,contatoreGrafici
 							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Tutte_le_attività_in_calorie.toString()); 					
 					contatoreGrafici++;
 				}else if (graficoDaFare.getTipoDiGrafico().equals(TipiDiGrafici.Tipo.Tutte_le_attività_in_ore.toString())) {
-					List<Attivita> attivita = attivitaMapper.getDispendiEnergeticiEOreSettimanaliTraDueDateDiviseInSettimane(dataPrecedente,dataSuccessiva);
+					List<Attivita> attivita = charCustomService.getDispendiEnergeticiEOreSettimanaliTraDueDateDiviseInSettimane(dataPrecedente,dataSuccessiva);
 					inserisciDatiOreInArrayDaListaAttivita(attivita,listDiTuttiIRisultati,contatoreGrafici
 							,graficoDaFare.getDataDa(),graficoDaFare.getDataA(),TipiDiGrafici.Tipo.Tutte_le_attività_in_ore.toString()); 					
 					contatoreGrafici++;
