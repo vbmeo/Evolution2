@@ -3,6 +3,8 @@ package com.vbmeo.evolution2.service;
 import java.sql.Date;
 import java.util.List;
 
+import org.apache.ibatis.exceptions.PersistenceException;
+import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -151,7 +153,7 @@ public class AttivitaServiceImpl implements AttivitaService {
 	}
 	
 	@Override
-	public List<Attivita> getDispendiEnergeticiSettimanaliAVuotoMensili(Date dataIniziosetimanaRichiesta) {
+	public List<Attivita> getDispendiEnergeticiSettimanaliAVuotoMensili(Date dataIniziosetimanaRichiesta) throws PersistenceException,SqlSessionException {
 		Date data4SetimanePrima = MyUtil.less4WeekToDateSQl(dataIniziosetimanaRichiesta);
 		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliAVuotoMensili(data4SetimanePrima, dataIniziosetimanaRichiesta);		
 	}

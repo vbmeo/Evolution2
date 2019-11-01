@@ -103,7 +103,7 @@ public class MyUtil {
 		return date;
 	}
 	
-	public static Date parseDate(String dataNelFormatoPrevisto, SimpleDateFormat formatoDellaData) {	
+	public static Date parseDate(String dataNelFormatoPrevisto, SimpleDateFormat formatoDellaData)  {	
 		Date date = null;
 		try {
 			date = formatoDellaData.parse(dataNelFormatoPrevisto);
@@ -243,14 +243,25 @@ public class MyUtil {
 	}
 	
 	
+	/**
+	 * ritorna eccezzione in caso non lo sia viene gestita poi 
+	 * @param dataStringa
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public static void controlloDataSql(String dataStringa) throws IllegalArgumentException {		
+			java.sql.Date sqlStartDate = java.sql.Date.valueOf(dataStringa);	
+	}
 	
-	public static boolean controlloDataSql(String dataStringa) {
+	
+	public static boolean isDataSql(String dataStringa) {		
 		try {
 			java.sql.Date sqlStartDate = java.sql.Date.valueOf(dataStringa);
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
+			
 	}
 	
 	/**
@@ -259,11 +270,9 @@ public class MyUtil {
 	 * @return
 	 */
 	public static java.sql.Date convertDateinSqlDate(String dataYyyyMMdd) {
-		if (controlloDataSql(dataYyyyMMdd)) {
+		controlloDataSql(dataYyyyMMdd);//gerera eccezzione se non è data
 			java.sql.Date sqlStartDate = java.sql.Date.valueOf(dataYyyyMMdd); 
 			return sqlStartDate;
-		} else
-			return null;
 	}
 	
 	

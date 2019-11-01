@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.exceptions.PersistenceException;
+import org.apache.ibatis.session.SqlSessionException;
 
 import com.vbmeo.evolution2.model.Attivita;
 import com.vbmeo.evolution2.model.AttivitaDispendio;
@@ -39,7 +41,7 @@ public interface AttivitaMapper {
 			+ "join  evolution.attivita_fisiche_dispendio " + 
 			"on attivita_fisiche.id_attivita = attivita_fisiche_dispendio.id " 
 			+ "order by attivita_fisiche.data_fine_settimana, attivita_fisiche.data")// order by data DESC
-	public List<Attivita> getAll();
+	public List<Attivita> getAll() throws PersistenceException,SqlSessionException;
 
 	//va in errore se si menziona il db evolution.
 	@Select("select attivita_fisiche.id, attivita_fisiche.id_attivita, " //,  as id_attivita
@@ -199,9 +201,9 @@ public interface AttivitaMapper {
 	
 	
 	@Select("SELECT data_fine_settimana, SUM(dispendio_energetico) as dispendio_energetico, SUM(quantita_in_ore) AS quantita_in_ore "
-			+ "FROM evolution.attivita_fisiche "
+			+ "FROM evolution.attivita_fiche "
 			+ "WHERE a_vuoto=true and data_fine_settimana >= #{dataInzio} and data_fine_settimana <= #{dataFine} ")
-	public List<Attivita> getDispendiEnergeticiEOreSettimanaliAVuotoMensili(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine); 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliAVuotoMensili(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine) throws PersistenceException,SqlSessionException  ; 
 			
 	
 	@Select("SELECT data_fine_settimana, SUM(dispendio_energetico) as dispendio_energetico, SUM(quantita_in_ore) AS quantita_in_ore "

@@ -5,25 +5,25 @@ import java.sql.Date;
 public class Misure {
 	  private Integer id;
 	  private Date data;
-	  private float altezza;
-	  private float peso;
-	  private float ombelico;
-	  private float addomesporgente;
-	  private float capezzoli;
-	  private float toracealto;
-	  private float braccisxstesobraccio;
-	  private float braccidxstesobraccio;
-	  private float bracciosxintiro;
-	  private float bracciodxintiro;
-	  private float collo;
-	  private float plicosxombelico;
-	  private float plicodxombelico;
-	  private float plicometasx;
-	  private float plicometadx;
-	  private float plicofiancosx;
-	  private float plicofiancodx;
-	  private float peso_mattina_a_vuoto;
-	  private float addome_mattina_a_vuoto;
+	  private Float altezza;
+	  private Float peso;
+	  private Float ombelico;
+	  private Float addomesporgente;
+	  private Float capezzoli;
+	  private Float toracealto;
+	  private Float braccisxstesobraccio;
+	  private Float braccidxstesobraccio;
+	  private Float bracciosxintiro;
+	  private Float bracciodxintiro;
+	  private Float collo;
+	  private Float plicosxombelico;
+	  private Float plicodxombelico;
+	  private Float plicometasx;
+	  private Float plicometadx;
+	  private Float plicofiancosx;
+	  private Float plicofiancodx;
+	  private Float peso_mattina_a_vuoto;
+	  private Float addome_mattina_a_vuoto;
 	  
 	public Integer getId() {
 		return id;
@@ -37,125 +37,125 @@ public class Misure {
 	public void setData(Date data) {
 		this.data = data;
 	}
-	public float getAltezza() {
+	public Float getAltezza() {
 		return altezza;
 	}
-	public void setAltezza(float altezza) {
+	public void setAltezza(Float altezza) {
 		this.altezza = altezza;
 	}
-	public float getPeso() {
+	public Float getPeso() {
 		return peso;
 	}
-	public void setPeso(float peso) {
+	public void setPeso(Float peso) {
 		this.peso = peso;
 	}
-	public float getOmbelico() {
+	public Float getOmbelico() {
 		return ombelico;
 	}
-	public void setOmbelico(float ombelico) {
+	public void setOmbelico(Float ombelico) {
 		this.ombelico = ombelico;
 	}
-	public float getAddomesporgente() {
+	public Float getAddomesporgente() {
 		return addomesporgente;
 	}
-	public void setAddomesporgente(float addomesporgente) {
+	public void setAddomesporgente(Float addomesporgente) {
 		this.addomesporgente = addomesporgente;
 	}
-	public float getCapezzoli() {
+	public Float getCapezzoli() {
 		return capezzoli;
 	}
-	public void setCapezzoli(float capezzoli) {
+	public void setCapezzoli(Float capezzoli) {
 		this.capezzoli = capezzoli;
 	}
-	public float getToracealto() {
+	public Float getToracealto() {
 		return toracealto;
 	}
-	public void setToracealto(float toracealto) {
+	public void setToracealto(Float toracealto) {
 		this.toracealto = toracealto;
 	}
-	public float getBraccisxstesobraccio() {
+	public Float getBraccisxstesobraccio() {
 		return braccisxstesobraccio;
 	}
-	public void setBraccisxstesobraccio(float braccisxstesobraccio) {
+	public void setBraccisxstesobraccio(Float braccisxstesobraccio) {
 		this.braccisxstesobraccio = braccisxstesobraccio;
 	}
-	public float getBraccidxstesobraccio() {
+	public Float getBraccidxstesobraccio() {
 		return braccidxstesobraccio;
 	}
-	public void setBraccidxstesobraccio(float braccidxstesobraccio) {
+	public void setBraccidxstesobraccio(Float braccidxstesobraccio) {
 		this.braccidxstesobraccio = braccidxstesobraccio;
 	}
-	public float getBracciosxintiro() {
+	public Float getBracciosxintiro() {
 		return bracciosxintiro;
 	}
-	public void setBracciosxintiro(float bracciosxintiro) {
+	public void setBracciosxintiro(Float bracciosxintiro) {
 		this.bracciosxintiro = bracciosxintiro;
 	}
-	public float getBracciodxintiro() {
+	public Float getBracciodxintiro() {
 		return bracciodxintiro;
 	}
-	public void setBracciodxintiro(float bracciodxintiro) {
+	public void setBracciodxintiro(Float bracciodxintiro) {
 		this.bracciodxintiro = bracciodxintiro;
 	}
-	public float getCollo() {
+	public Float getCollo() {
 		return collo;
 	}
-	public void setCollo(float collo) {
+	public void setCollo(Float collo) {
 		this.collo = collo;
 	}
-	public float getPlicosxombelico() {
+	public Float getPlicosxombelico() {
 		return plicosxombelico;
 	}
-	public void setPlicosxombelico(float plicosxombelico) {
+	public void setPlicosxombelico(Float plicosxombelico) {
 		this.plicosxombelico = plicosxombelico;
 	}
-	public float getPlicodxombelico() {
+	public Float getPlicodxombelico() {
 		return plicodxombelico;
 	}
-	public void setPlicodxombelico(float plicodxombelico) {
+	public void setPlicodxombelico(Float plicodxombelico) {
 		this.plicodxombelico = plicodxombelico;
 	}
-	public float getPlicometasx() {
+	public Float getPlicometasx() {
 		return plicometasx;
 	}
-	public void setPlicometasx(float plicometasx) {
+	public void setPlicometasx(Float plicometasx) {
 		this.plicometasx = plicometasx;
 	}
-	public float getPlicometadx() {
+	public Float getPlicometadx() {
 		return plicometadx;
 	}
-	public void setPlicometadx(float plicometadx) {
+	public void setPlicometadx(Float plicometadx) {
 		this.plicometadx = plicometadx;
 	}
-	public float getPlicofiancosx() {
+	public Float getPlicofiancosx() {
 		return plicofiancosx;
 	}
-	public void setPlicofiancosx(float plicofiancosx) {
+	public void setPlicofiancosx(Float plicofiancosx) {
 		this.plicofiancosx = plicofiancosx;
 	}
-	public float getPlicofiancodx() {
+	public Float getPlicofiancodx() {
 		return plicofiancodx;
 	}
-	public void setPlicofiancodx(float plicofiancodx) {
+	public void setPlicofiancodx(Float plicofiancodx) {
 		this.plicofiancodx = plicofiancodx;
 	}
-	public float getPeso_mattina_a_vuoto() {
+	public Float getPeso_mattina_a_vuoto() {
 		return peso_mattina_a_vuoto;
 	}
-	public void setPeso_mattina_a_vuoto(float peso_mattina_a_vuoto) {
+	public void setPeso_mattina_a_vuoto(Float peso_mattina_a_vuoto) {
 		this.peso_mattina_a_vuoto = peso_mattina_a_vuoto;
 	}
-	public float getAddome_mattina_a_vuoto() {
+	public Float getAddome_mattina_a_vuoto() {
 		return addome_mattina_a_vuoto;
 	}
-	public void setAddome_mattina_a_vuoto(float addome_mattina_a_vuoto) {
+	public void setAddome_mattina_a_vuoto(Float addome_mattina_a_vuoto) {
 		this.addome_mattina_a_vuoto = addome_mattina_a_vuoto;
 	}
-	public Misure(Integer id, Date data, float altezza, float peso, float ombelico, float addomesporgente,
-			float capezzoli, float toracealto, float braccisxstesobraccio, float braccidxstesobraccio,
-			float bracciosxintiro, float bracciodxintiro, float collo, float plicosxombelico, float plicodxombelico,
-			float plicometasx, float plicometadx, float plicofiancosx, float plicofiancodx, float peso_mattina_a_vuoto,
-			float addome_mattina_a_vuoto) {
+	public Misure(Integer id, Date data, Float altezza, Float peso, Float ombelico, Float addomesporgente,
+			Float capezzoli, Float toracealto, Float braccisxstesobraccio, Float braccidxstesobraccio,
+			Float bracciosxintiro, Float bracciodxintiro, Float collo, Float plicosxombelico, Float plicodxombelico,
+			Float plicometasx, Float plicometadx, Float plicofiancosx, Float plicofiancodx, Float peso_mattina_a_vuoto,
+			Float addome_mattina_a_vuoto) {
 		super();
 		this.id = id;
 		this.data = data;
@@ -179,11 +179,11 @@ public class Misure {
 		this.peso_mattina_a_vuoto = peso_mattina_a_vuoto;
 		this.addome_mattina_a_vuoto = addome_mattina_a_vuoto;
 	}
-	public Misure(Date data, float altezza, float peso, float ombelico, float addomesporgente, float capezzoli,
-			float toracealto, float braccisxstesobraccio, float braccidxstesobraccio, float bracciosxintiro,
-			float bracciodxintiro, float collo, float plicosxombelico, float plicodxombelico, float plicometasx,
-			float plicometadx, float plicofiancosx, float plicofiancodx, float peso_mattina_a_vuoto,
-			float addome_mattina_a_vuoto) {
+	public Misure(Date data, Float altezza, Float peso, Float ombelico, Float addomesporgente, Float capezzoli,
+			Float toracealto, Float braccisxstesobraccio, Float braccidxstesobraccio, Float bracciosxintiro,
+			Float bracciodxintiro, Float collo, Float plicosxombelico, Float plicodxombelico, Float plicometasx,
+			Float plicometadx, Float plicofiancosx, Float plicofiancodx, Float peso_mattina_a_vuoto,
+			Float addome_mattina_a_vuoto) {
 		super();
 		this.data = data;
 		this.altezza = altezza;

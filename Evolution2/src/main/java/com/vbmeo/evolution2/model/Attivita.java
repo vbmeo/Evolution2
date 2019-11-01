@@ -8,7 +8,7 @@ public class Attivita {
 	 private Integer id_attivita;
 	 private Date data;
 	 private Date data_fine_settimana;
-	 private float quantita_in_ore;
+	 private Float quantita_in_ore;
 	 private String nome_attivita;//recuperato in join con chuive esterna da tabella attivita_fisiche_dispendio
 	 private Integer dispendio_energetico;
 	 private String note;
@@ -77,13 +77,13 @@ public class Attivita {
 
 
 
-	public float getQuantita_in_ore() {
+	public Float getQuantita_in_ore() {
 		return quantita_in_ore;
 	}
 
 
 
-	public void setQuantita_in_ore(float quantita_in_ore) {
+	public void setQuantita_in_ore(Float quantita_in_ore) {
 		this.quantita_in_ore = quantita_in_ore;
 	}
 

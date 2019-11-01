@@ -153,29 +153,52 @@ public class ManagerGeneral {
 	@SuppressWarnings("static-access")
 	private void modificaDatiPerRenderliCompatibili(RigaGraficoCustom[] arrayDiTuttiIRisultati, Float[] indiceArrayConDatoPiuElevato) {
 		//indiceArray con indice dato più elevato e dato più elevato
+		Float indiceDellaRigaConDatoPiuElevato = indiceArrayConDatoPiuElevato[0];
+		Float valorePiuElevatoAssoluto = indiceArrayConDatoPiuElevato[1];
+		Float datopiuBassoDellaRigaPiuAlta = indiceArrayConDatoPiuElevato[2];
+		
 		for (int conta=0; conta< arrayDiTuttiIRisultati.length; conta++) {
-			if (conta==indiceArrayConDatoPiuElevato[0]) {//se uguale all'indice di quello che non è stato trasformato
+			if (conta==indiceDellaRigaConDatoPiuElevato) {//se uguale all'indice di quello che non è stato trasformato
 				//mette 1 come coefficente
 				arrayDiTuttiIRisultati[conta].setCoefficienteDiMoltiplicazioneDeiDati(1);
 			}else {
-				//trova dato più elevato tra questa riga
+				//trova dato più elevato tra questa riga e quello piu basso
 				Float valorePiuElevato=(float) 0;
+				Float valorePiuPiccolo=valorePiuElevatoAssoluto;
 				for (String valoreStringa : arrayDiTuttiIRisultati[conta].getArrayValori()) {
 					if (MyUtil.convertStringToFloat(valoreStringa)>valorePiuElevato) {
 						valorePiuElevato=MyUtil.convertStringToFloat(valoreStringa);
 					}
 				}
+				for (String valoreStringa : arrayDiTuttiIRisultati[conta].getArrayValori()) {
+					if (MyUtil.convertStringToFloat(valoreStringa)<valorePiuPiccolo) {
+						valorePiuPiccolo=MyUtil.convertStringToFloat(valoreStringa);
+					}
+				}
 				
 				//trova il coefficente di moltiplicazione per renderlo compatibile con quello più elevato tra tutti
 				//tagliando i decimali diventa quindi più piccolo
-				int coefficente = (int) (indiceArrayConDatoPiuElevato[1]/valorePiuElevato);
-				arrayDiTuttiIRisultati[conta].setCoefficienteDiMoltiplicazioneDeiDati(coefficente);
+				int coefficentePerValorePiuElevatoDellaRiga = (int) (valorePiuElevatoAssoluto/valorePiuElevato);
+				int coefficentePerValorePiuPiccoloDellaRiga = (int) (datopiuBassoDellaRigaPiuAlta/valorePiuPiccolo);
+				int coefficientemedio = (coefficentePerValorePiuElevatoDellaRiga+coefficentePerValorePiuPiccoloDellaRiga)/2;
+				
+				arrayDiTuttiIRisultati[conta].setCoefficienteDiMoltiplicazioneDeiDati(coefficentePerValorePiuElevatoDellaRiga);
 				//moltiplico tutti i dati per il coefficente appena trovato
+				//da valori string si passa a float per moltiplicarli poi nuovamente a string
 				for (int conta1=0; conta1<arrayDiTuttiIRisultati[conta].getArrayValori().length; conta1++) {
-					float vecchiovalore= (MyUtil.convertStringToFloat(arrayDiTuttiIRisultati[conta].getArrayValori()[conta1]));
-					float nuovoValore=(coefficente*vecchiovalore);
-					String nuovoValoreString = Float.toString(nuovoValore);
-					arrayDiTuttiIRisultati[conta].getArrayValori()[conta1]= nuovoValoreString;
+					
+					
+					if (arrayDiTuttiIRisultati[conta].getArrayValori()[conta1]!=null) {
+						Float vecchiovalore= (MyUtil.convertStringToFloat(arrayDiTuttiIRisultati[conta].getArrayValori()[conta1]));			
+						//rendo nulli i valori equivalenti a 0
+						if (vecchiovalore==0) {
+							arrayDiTuttiIRisultati[conta].getArrayValori()[conta1]=null;
+						}else {//valore normale da moltiplicare						
+							Float nuovoValore=(coefficentePerValorePiuElevatoDellaRiga*vecchiovalore);
+							String nuovoValoreString = Float.toString(nuovoValore);
+							arrayDiTuttiIRisultati[conta].getArrayValori()[conta1]= nuovoValoreString;
+						}
+					}
 				}
 				
 				
@@ -200,10 +223,12 @@ public class ManagerGeneral {
 
 	private void inserisciDatiDispendiEnergeticiInArrayDaListaAttivita(List<Attivita> attivita, List<RigaGraficoCustom> arrayDiTuttiIRisultati,
 			Integer contatoreGrafici, String dataDa, String dataA, String tipoDiGrafico) {
-		double[] datiAttivita = new  double[attivita.size()];
+		Float[] datiAttivita = new  Float[attivita.size()];
 		Date[] listaDateSingliValori = new Date[attivita.size()];
 		for (int i = 0; i < attivita.size(); i++) {
-			datiAttivita[i] = attivita.get(i).getDispendio_energetico();	
+			if (attivita.get(i).getDispendio_energetico()!=null)
+				datiAttivita[i] = (float) attivita.get(i).getDispendio_energetico();
+			
 			listaDateSingliValori[i]= attivita.get(i).getData_fine_settimana();
 		}
 		//creo oggetto con i valori
@@ -215,10 +240,12 @@ public class ManagerGeneral {
 	
 	private void inserisciDatiOreInArrayDaListaAttivita(List<Attivita> attivita, List<RigaGraficoCustom> arrayDiTuttiIRisultati,
 			Integer contatoreGrafici, String dataDa, String dataA, String tipoDiGrafico) {
-		double[] datiAttivita = new  double[attivita.size()];
+		Float[] datiAttivita = new  Float[attivita.size()];
 		Date[] listaDateSingliValori = new Date[attivita.size()];
 		for (int i = 0; i < attivita.size(); i++) {
-			datiAttivita[i] = attivita.get(i).getQuantita_in_ore();		
+			if (attivita.get(i).getQuantita_in_ore()!=null)
+				datiAttivita[i] = attivita.get(i).getQuantita_in_ore();		
+			
 			listaDateSingliValori[i]= attivita.get(i).getData_fine_settimana();
 		}
 		//creo oggetto con i valori
@@ -232,10 +259,11 @@ public class ManagerGeneral {
 	
 	private void inserisciDatiAlcoolArrayDaListaMacro(List<MacroSettimanali> macro, List<RigaGraficoCustom> arrayDiTuttiIRisultati,
 			Integer contatoreGrafici, String dataDa, String dataA, String tipoDiGrafico) {
-		double[] datiAttivita = new  double[macro.size()];
+		Float[] datiAttivita = new  Float[macro.size()];
 		Date[] listaDateSingliValori = new Date[macro.size()];
 		for (int i = 0; i < macro.size(); i++) {
-			datiAttivita[i] = macro.get(i).getAlcool_sett();		
+			if (macro.get(i).getAlcool_sett()!=null)
+				datiAttivita[i] = (float) macro.get(i).getAlcool_sett();		
 			listaDateSingliValori[i]= macro.get(i).getData();
 		}
 		//creo oggetto con i valori
@@ -247,10 +275,14 @@ public class ManagerGeneral {
 	
 	private void inserisciDatiAlcooEGrassilArrayDaListaMacro(List<MacroSettimanali> macro, List<RigaGraficoCustom> arrayDiTuttiIRisultati,
 			Integer contatoreGrafici, String dataDa, String dataA, String tipoDiGrafico) {
-		double[] datiAttivita = new  double[macro.size()];
+		Float[] datiAttivita = new  Float[macro.size()];
 		Date[] listaDateSingliValori = new Date[macro.size()];
 		for (int i = 0; i < macro.size(); i++) {
-			datiAttivita[i] = macro.get(i).getAlcool_sett()+macro.get(i).getGrassi_sett();		
+			if (macro.get(i).getAlcool_sett()!=null)
+				datiAttivita[i] = (float)macro.get(i).getAlcool_sett();
+			if(macro.get(i).getGrassi_sett()!=null)
+				datiAttivita[i] =+ (float)macro.get(i).getGrassi_sett();
+
 			listaDateSingliValori[i]= macro.get(i).getData();
 		}
 		//creo oggetto con i valori
@@ -262,10 +294,12 @@ public class ManagerGeneral {
 	
 	private void inserisciDatiGrassilArrayDaListaMacro(List<MacroSettimanali> macro, List<RigaGraficoCustom> arrayDiTuttiIRisultati,
 			Integer contatoreGrafici, String dataDa, String dataA, String tipoDiGrafico) {
-		double[] datiAttivita = new  double[macro.size()];
+		Float[] datiAttivita = new  Float[macro.size()];
 		Date[] listaDateSingliValori = new Date[macro.size()];
 		for (int i = 0; i < macro.size(); i++) {
-			datiAttivita[i] = macro.get(i).getGrassi_sett();		
+			if (macro.get(i).getGrassi_sett()!=null)
+				datiAttivita[i] = (float) macro.get(i).getGrassi_sett();	
+			
 			listaDateSingliValori[i]= macro.get(i).getData();
 		}
 		//creo oggetto con i valori
@@ -277,10 +311,11 @@ public class ManagerGeneral {
 	
 	private void inserisciDatiCarboArrayDaListaMacro(List<MacroSettimanali> macro, List<RigaGraficoCustom> arrayDiTuttiIRisultati,
 			Integer contatoreGrafici, String dataDa, String dataA, String tipoDiGrafico) {
-		double[] datiAttivita = new  double[macro.size()];
+		Float[] datiAttivita = new  Float[macro.size()];
 		Date[] listaDateSingliValori = new Date[macro.size()];
 		for (int i = 0; i < macro.size(); i++) {
-			datiAttivita[i] = macro.get(i).getCarboidrati_sett();		
+			if( macro.get(i).getCarboidrati_sett()!=null)
+			datiAttivita[i] = (float) macro.get(i).getCarboidrati_sett();		
 			listaDateSingliValori[i]= macro.get(i).getData();
 		}
 		//creo oggetto con i valori
@@ -291,10 +326,11 @@ public class ManagerGeneral {
 	
 	private void inserisciDatiProteineArrayDaListaMacro(List<MacroSettimanali> macro, List<RigaGraficoCustom> arrayDiTuttiIRisultati,
 			Integer contatoreGrafici, String dataDa, String dataA, String tipoDiGrafico) {
-		double[] datiAttivita = new  double[macro.size()];
+		Float[] datiAttivita = new  Float[macro.size()];
 		Date[] listaDateSingliValori = new Date[macro.size()];
 		for (int i = 0; i < macro.size(); i++) {
-			datiAttivita[i] = macro.get(i).getProteine_sett();		
+			if( macro.get(i).getProteine_sett()!=null)
+				datiAttivita[i] = (float) macro.get(i).getProteine_sett();		
 			listaDateSingliValori[i]= macro.get(i).getData();
 		}
 		//creo oggetto con i valori
@@ -309,10 +345,11 @@ public class ManagerGeneral {
 	
 	private void inserisciDatiCalorieArrayDaListaMacro(List<MacroSettimanali> macro, List<RigaGraficoCustom> arrayDiTuttiIRisultati,
 			Integer contatoreGrafici, String dataDa, String dataA, String tipoDiGrafico) {
-		double[] datiAttivita = new  double[macro.size()];
+		Float[] datiAttivita = new  Float[macro.size()];
 		Date[] listaDateSingliValori = new Date[macro.size()];
 		for (int i = 0; i < macro.size(); i++) {
-			datiAttivita[i] = macro.get(i).getCalorie_sett();		
+			if( macro.get(i).getCalorie_sett()!=null)
+				datiAttivita[i] = (float)macro.get(i).getCalorie_sett();		
 			listaDateSingliValori[i]= macro.get(i).getData();
 		}
 		//creo oggetto con i valori
@@ -333,7 +370,7 @@ public class ManagerGeneral {
  */
 	private boolean inserisciMisuraDaListaMisure(List<Misure> misure, List<RigaGraficoCustom> listDiTuttiIRisultati,
 			Integer contatoreGrafici, String dataDa, String dataA, String tipoDiGrafico) {
-		double[] datiAttivita = new  double[misure.size()];
+		Float[] datiAttivita = new  Float[misure.size()];
 		Date[] listaDateSingliValori = new Date[misure.size()];
 		
 		for (int i = 0; i < misure.size(); i++) {
@@ -394,12 +431,12 @@ public class ManagerGeneral {
 				return false; //se non è nessuna di queste richieste esce
 			}
 			
-			
-			
-			
-					
 			listaDateSingliValori[i]= misure.get(i).getData();
-		}
+		}//for
+		
+		
+		//rendiNullValoriZero(datiAttivita);
+		
 		//creo oggetto con i valori
 		RigaGraficoCustom rigaGraficoCustom = new RigaGraficoCustom(datiAttivita,tipoDiGrafico,dataDa,dataA,listaDateSingliValori);				
 		//metto in list globale
@@ -410,13 +447,31 @@ public class ManagerGeneral {
 	
 	
 	
+//private void rendiNullValoriZero(Double[] datiAttivita) {
+//	for (int a=0; a< datiAttivita.length;a++) {
+//		if (datiAttivita[a]==0) {
+//			datiAttivita[a]=null;
+//		}
+//	}
+//	
+//}
+
+
+
+
+
+
+
+
+
 /**
  * ritorna indiceArray con indice dato più elevato e dato più elevato
+ * e datopiuBassoDellaRigaPiuAlta
  * @param arrayDiTutteLeRighe
  * @return
  */
 	private Float[] getIndiceDellArrayConDatoPiuAlto(RigaGraficoCustom[] arrayDiTutteLeRighe) {
-		Float[] arrauDueDati =  new Float[2];
+		Float[] arrauDueDati =  new Float[3];
 		Float datopiuElevato = (float) 0;
 		Float indiceDoveSiTrovaDatoPiuElevato = null;
 		for (int conta=0; conta <arrayDiTutteLeRighe.length; conta++) {
@@ -432,8 +487,21 @@ public class ManagerGeneral {
 			}
 			
 		}
+		//ora che hoil valore più elevato cerco quello più basso della stessa sequenza-riga
+		Float datopiuBassoDellaRigaPiuAlta = datopiuElevato;
+		int indice = Math.round(indiceDoveSiTrovaDatoPiuElevato);
+		
+		for (String valore : arrayDiTutteLeRighe[indice].getArrayValori()) {
+			//gira tutti i valori della riga ma sono stringhe
+			if (MyUtil.convertStringToFloat(valore)>0)
+				if (MyUtil.convertStringToFloat(valore)<datopiuBassoDellaRigaPiuAlta) {
+					datopiuBassoDellaRigaPiuAlta=MyUtil.convertStringToFloat(valore);
+				}
+		}
+		
 		arrauDueDati[0]= indiceDoveSiTrovaDatoPiuElevato;
 		arrauDueDati[1]= datopiuElevato;
+		arrauDueDati[2]= datopiuBassoDellaRigaPiuAlta;
 		return arrauDueDati;
 		
 	}
@@ -443,22 +511,8 @@ public class ManagerGeneral {
 		for (GraficiDaFare graficoDaFare : grafici) {
 			//controllo data 
 			Date dataSql;
-			Date dataPrecedente;
-			Date dataSuccessiva;
-			if (MyUtil.controlloDataSql(graficoDaFare.getDataDa())) {
-				dataPrecedente= MyUtil.convertDateinSqlDate(graficoDaFare.getDataDa());
-				//dataPrecedente = MyUtil.less4WeekToDateSQl(dataSql);
-			}else {
-				return null;//esce alla prima se tutto ok
-			}
-			//controllo altra data
-			if (MyUtil.controlloDataSql(graficoDaFare.getDataA())) {
-				dataSuccessiva= MyUtil.convertDateinSqlDate(graficoDaFare.getDataA());
-				//dataSuccessiva = MyUtil.less4WeekToDateSQl(dataSql);
-			}else {
-				return null;//esce alla prima se tutto ok
-			}
-			
+			Date dataPrecedente= MyUtil.convertDateinSqlDate(graficoDaFare.getDataDa());//gestisce già errore
+			Date dataSuccessiva=MyUtil.convertDateinSqlDate(graficoDaFare.getDataA());//gestisce già errore
 			
 			List<Date> dataDaeA = new ArrayList<Date>(2);
 			dataDaeA.add(dataPrecedente);

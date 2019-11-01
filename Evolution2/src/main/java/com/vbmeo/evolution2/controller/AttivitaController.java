@@ -24,6 +24,10 @@ import com.vbmeo.evolution2.util.MyUtil;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AttivitaController {
 
+	
+/**
+ * errori gestiti da GlobalExceptionController
+ */
 private static final Logger logger = LoggerFactory.getLogger(AttivitaController.class);
 	
 	@Autowired
@@ -54,9 +58,7 @@ private static final Logger logger = LoggerFactory.getLogger(AttivitaController.
 	@CrossOrigin
 	@GetMapping(value = "/attivita/consumisettimanaliavuoto/{inData}")
 	public List<Attivita> getDispendiEnergeticiSettimanaliAVuoto(@PathVariable String inData) {
-		Date dataSql = null;
-		if (MyUtil.controlloDataSql(inData))
-			dataSql = MyUtil.convertDateinSqlDate(inData);
+		Date dataSql = MyUtil.convertDateinSqlDate(inData);//controlla data e genere eccezzione nel caso
 			if (dataSql!=null) {
 				List<Attivita> lista = attivitaService.getDispendiEnergeticiSettimanaliAVuoto(dataSql);	
 				return lista;
@@ -79,9 +81,7 @@ private static final Logger logger = LoggerFactory.getLogger(AttivitaController.
 	@CrossOrigin
 	@GetMapping(value = "/attivita/consumisettimanalianonvuoto/{inData}")
 	public List<Attivita> getDispendiEnergeticiSettimanaliNonAVuoto(@PathVariable String inData) {
-		Date dataSql = null;
-		if (MyUtil.controlloDataSql(inData))
-			dataSql = MyUtil.convertDateinSqlDate(inData);
+		Date dataSql = MyUtil.convertDateinSqlDate(inData);//controlla data e genere eccezzione nel caso
 			if (dataSql!=null) {
 				List<Attivita> lista = attivitaService.getDispendiEnergeticiSettimanaliNonAVuoto(dataSql);	
 				return lista;
@@ -105,9 +105,7 @@ private static final Logger logger = LoggerFactory.getLogger(AttivitaController.
 	@CrossOrigin
 	@GetMapping(value = "/attivita/consumisettimanaliatotali/{inData}")
 	public List<Attivita> getDispendiEnergeticiSettimanaliTotali(@PathVariable String inData) {
-		Date dataSql = null;
-		if (MyUtil.controlloDataSql(inData))
-			dataSql = MyUtil.convertDateinSqlDate(inData);
+		Date dataSql =  MyUtil.convertDateinSqlDate(inData);//controlla data e genere eccezzione nel caso
 			if (dataSql!=null) {
 				List<Attivita> lista = attivitaService.getDispendiEnergeticiSettimanaliTotali(dataSql);	
 				return lista;
@@ -126,9 +124,7 @@ private static final Logger logger = LoggerFactory.getLogger(AttivitaController.
 	@CrossOrigin
 	@GetMapping(value = "/attivita/consumisettimanaliatotalimensili/{inData}")
 	public List<Attivita> getDispendiEnergeticiSettimanaliTotalimensilimensili(@PathVariable String inData) {
-		Date dataSql = null;
-		if (MyUtil.controlloDataSql(inData))
-			dataSql = MyUtil.convertDateinSqlDate(inData);
+		Date dataSql =  MyUtil.convertDateinSqlDate(inData);//controlla data e genere eccezzione nel caso
 			if (dataSql!=null) {
 				List<Attivita> lista = attivitaService.getDispendiEnergeticiSettimanaliTotaliMensili(dataSql);	
 				return lista;
@@ -140,9 +136,7 @@ private static final Logger logger = LoggerFactory.getLogger(AttivitaController.
 	@CrossOrigin
 	@GetMapping(value = "/attivita/consumisettimanalianonvuotomensili/{inData}")
 	public List<Attivita> getDispendiEnergeticiSettimanaliNonAVuotoMensili(@PathVariable String inData) {
-		Date dataSql = null;
-		if (MyUtil.controlloDataSql(inData))
-			dataSql = MyUtil.convertDateinSqlDate(inData);
+		Date dataSql =  MyUtil.convertDateinSqlDate(inData);//controlla data e genere eccezzione nel caso
 			if (dataSql!=null) {
 				List<Attivita> lista = attivitaService.getDispendiEnergeticiSettimanaliNonAVuotoMensili(dataSql);	
 				return lista;
@@ -163,9 +157,9 @@ private static final Logger logger = LoggerFactory.getLogger(AttivitaController.
 	@CrossOrigin
 	@GetMapping(value = "/attivita/consumisettimanaliavuotomensili/{inData}")
 	public List<Attivita> getDispendiEnergeticiSettimanaliAVuotoMensili(@PathVariable String inData) {
+		
 		Date dataSql = null;
-		if (MyUtil.controlloDataSql(inData))
-			dataSql = MyUtil.convertDateinSqlDate(inData);
+		dataSql = MyUtil.convertDateinSqlDate(inData);//controlla data e genere eccezzione nel caso
 			if (dataSql!=null) {
 				List<Attivita> lista = attivitaService.getDispendiEnergeticiSettimanaliAVuotoMensili(dataSql);	
 				return lista;
@@ -186,9 +180,7 @@ private static final Logger logger = LoggerFactory.getLogger(AttivitaController.
 	@CrossOrigin
 	@GetMapping(value = "/attivita/consumisettimanaliaerobici/{inData}")
 	public List<Attivita> getDispendiEnergeticiSettimanaliAerobici(@PathVariable String inData) {
-		Date dataSql = null;
-		if (MyUtil.controlloDataSql(inData))
-			dataSql = MyUtil.convertDateinSqlDate(inData);
+		Date dataSql = MyUtil.convertDateinSqlDate(inData);//controlla data e genere eccezzione nel caso
 			if (dataSql!=null) {
 				List<Attivita> lista = attivitaService.getDispendiEnergeticiSettimanaliAerobici(dataSql);	
 				return lista;
@@ -211,9 +203,7 @@ private static final Logger logger = LoggerFactory.getLogger(AttivitaController.
 	@CrossOrigin
 	@GetMapping(value = "/attivita/consumisettimanalinonaerobici/{inData}")
 	public List<Attivita> getDispendiEnergeticiSettimanaliNonAerobici(@PathVariable String inData) {
-		Date dataSql = null;
-		if (MyUtil.controlloDataSql(inData))
-			dataSql = MyUtil.convertDateinSqlDate(inData);
+		Date dataSql = MyUtil.convertDateinSqlDate(inData);//controlla data e genere eccezzione nel caso
 			if (dataSql!=null) {
 				List<Attivita> lista = attivitaService.getDispendiEnergeticiSettimanaliNonAerobici(dataSql);	
 				return lista;
@@ -280,20 +270,16 @@ private static final Logger logger = LoggerFactory.getLogger(AttivitaController.
 		Date dataSqldataYYYYMMDDWE= null;
 		Date dataSqldataYYYYMMDD = null;
 		
-		if (!MyUtil.controlloDataSql(dataYYYYMMDDWE))
-			return new ResponseEntity("La data WE è di un formato errato deve essere (es. 2014-12-01)" , HttpStatus.NOT_ACCEPTABLE);//mettendo non acettabile riesco a stampare il messaggio in ajax con quello che volgio dire, diventa errore 406
-		else{
-			dataSqldataYYYYMMDDWE = MyUtil.convertDateinSqlDate(dataYYYYMMDDWE);
+			dataSqldataYYYYMMDDWE = MyUtil.convertDateinSqlDate(dataYYYYMMDDWE);//controlla data e genere eccezzione nel caso
 			if (dataSqldataYYYYMMDDWE==null)
 				return new ResponseEntity("La data WE è di un formato errato deve essere (es. 2014-12-01)" , HttpStatus.NOT_ACCEPTABLE);//mettendo non acettabile riesco a stampare il messaggio in ajax con quello che volgio dire, diventa errore 406
-		}
+		
 			
 		
 		//controllo altra data non necessaria
 		//no, può anche non esserci la data giornaliera
 		if (dataYYYYMMDD!=null) {
-			if (MyUtil.controlloDataSql(dataYYYYMMDD))
-				dataSqldataYYYYMMDD = MyUtil.convertDateinSqlDate(dataYYYYMMDD);
+				dataSqldataYYYYMMDD = MyUtil.convertDateinSqlDate(dataYYYYMMDD);//controlla data e genere eccezzione nel caso
 //				if (dataSqldataYYYYMMDD==null)
 //					return new ResponseEntity("La data è di un formato errato deve essere (es. 2014-12-01)" , HttpStatus.NOT_ACCEPTABLE);//mettendo non acettabile riesco a stampare il messaggio in ajax con quello che volgio dire, diventa errore 406		
 		}

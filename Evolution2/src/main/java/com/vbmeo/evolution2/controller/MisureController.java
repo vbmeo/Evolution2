@@ -76,14 +76,10 @@ public class MisureController {
 				
 				//-----------zona valida sia per update che insert------------
 				//controllo data 
-				Date dataSql;
-				if (!MyUtil.controlloDataSql(dataYYYYMMDD))
-					return new ResponseEntity("La data è di un formato errato deve essere (es. 2014-12-01)" , HttpStatus.NOT_ACCEPTABLE);//mettendo non acettabile riesco a stampare il messaggio in ajax con quello che volgio dire, diventa errore 406
-				else{
-					dataSql = MyUtil.convertDateinSqlDate(dataYYYYMMDD);
+				Date dataSql = MyUtil.convertDateinSqlDate(dataYYYYMMDD);//gestisce errore
 					if (dataSql==null)
 						return new ResponseEntity("La data è di un formato errato deve essere (es. 2014-12-01)" , HttpStatus.NOT_ACCEPTABLE);//mettendo non acettabile riesco a stampare il messaggio in ajax con quello che volgio dire, diventa errore 406
-				}
+				
 					
 				
 					
@@ -137,9 +133,7 @@ public class MisureController {
 			@GetMapping(value = "/misure/diffPeso/{dataInfo}")
 			public double getDifferenzaPesoSettimanaPrecedente(@PathVariable String dataInfo) {
 				//controllo data 
-				Date dataSql = null;
-				if (MyUtil.controlloDataSql(dataInfo))
-					dataSql = MyUtil.convertDateinSqlDate(dataInfo);
+				Date dataSql =  MyUtil.convertDateinSqlDate(dataInfo);//gestisce errore
 					if (dataSql!=null) {
 						Date dataSettimanaPrecedente=MyUtil.addDayToDateSQl(dataSql,-7);
 						double differenza = misureService.getDifferenzaPesoTraDueDate(dataSql,dataSettimanaPrecedente);
@@ -155,9 +149,7 @@ public class MisureController {
 			@GetMapping(value = "/misure/diffPesomese/{dataInfo}")
 			public double getDifferenzaPesoMesePrecedente(@PathVariable String dataInfo) {
 				//controllo data 
-				Date dataSql = null;
-				if (MyUtil.controlloDataSql(dataInfo))
-					dataSql = MyUtil.convertDateinSqlDate(dataInfo);
+				Date dataSql = MyUtil.convertDateinSqlDate(dataInfo);//gestisce errore
 					if (dataSql!=null) {
 						double differenza = misureService.getDifferenzaPesoTradataE4SettimanePrima(dataSql);
 						return  MyUtil.troncaCifreDec(differenza,1);
@@ -173,9 +165,7 @@ public class MisureController {
 			@GetMapping(value = "/misure/diffOmbelico/{dataInfo}")
 			public double getDifferenzaOmbelicoSettimanaPrecedente(@PathVariable String dataInfo) {
 				//controllo data 
-				Date dataSql = null;
-				if (MyUtil.controlloDataSql(dataInfo))
-					dataSql = MyUtil.convertDateinSqlDate(dataInfo);
+				Date dataSql = MyUtil.convertDateinSqlDate(dataInfo);//gestisce errore
 					if (dataSql!=null) {
 						Date dataSettimanaPrecedente=MyUtil.addDayToDateSQl(dataSql,-7);
 						double differenza = misureService.getDifferenzaOmbelicoTraDueDate(dataSql,dataSettimanaPrecedente);
@@ -189,9 +179,7 @@ public class MisureController {
 			@GetMapping(value = "/misure/diffOmbelicomese/{dataInfo}")
 			public double getDifferenzaOmbelicoTradataE4SettimanePrima(@PathVariable String dataInfo) {
 				//controllo data 
-				Date dataSql = null;
-				if (MyUtil.controlloDataSql(dataInfo))
-					dataSql = MyUtil.convertDateinSqlDate(dataInfo);
+				Date dataSql =  MyUtil.convertDateinSqlDate(dataInfo);//gestisce errore
 					if (dataSql!=null) {
 						double differenza = misureService.getDifferenzaOmbelicoTradataE4SettimanePrima(dataSql);
 						return MyUtil.troncaCifreDec(differenza,1);

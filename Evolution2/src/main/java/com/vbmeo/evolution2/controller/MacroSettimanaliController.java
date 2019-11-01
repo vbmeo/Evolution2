@@ -103,7 +103,7 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 				logger.debug(FrasiFatte.HttpRequest.RICHIESTA_ANDATA_A_BUON_FINE + idOrDate);
 				list.add(macro);
 				return list;//new ResponseEntity(macro, HttpStatus.OK);
-			}else if (MyUtil.controlloDataSql(idOrDate)){
+			}else if (MyUtil.isDataSql(idOrDate)){
 				java.sql.Date sqlDate = MyUtil.convertDateinSqlDate(idOrDate);
 				List<MacroSettimanali> macro = macroSettimanaliService.getByDate(sqlDate);
 				logger.debug(FrasiFatte.HttpRequest.RICHIESTA_ANDATA_A_BUON_FINE + idOrDate);
@@ -119,9 +119,7 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 		@GetMapping(value = "/macro/bydate/{dataInfo}")//non aggiungere altro altrimenti non legge il parametro
 		public List<MacroSettimanali> getByDate(@PathVariable String dataInfo) {
 			//controllo data 
-			Date dataSql = null;
-			if (MyUtil.controlloDataSql(dataInfo))
-				dataSql = MyUtil.convertDateinSqlDate(dataInfo);
+			Date dataSql = MyUtil.convertDateinSqlDate(dataInfo);//gestisce già errore
 				if (dataSql!=null) {
 					List<MacroSettimanali> listaDaUnoSolo = macroSettimanaliService.getByDate(dataSql);
 					return listaDaUnoSolo;
@@ -135,9 +133,7 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 		@GetMapping(value = "/macro/bydatemese/{dataInfo}")//non aggiungere altro altrimenti non legge il parametro
 		public Integer getByDateMesePrima(@PathVariable String dataInfo) {
 			//controllo data 
-			Date dataSql = null;
-			if (MyUtil.controlloDataSql(dataInfo))
-				dataSql = MyUtil.convertDateinSqlDate(dataInfo);
+			Date dataSql = MyUtil.convertDateinSqlDate(dataInfo);//gestisce già errore
 				if (dataSql!=null) {
 					Integer calorieTotali = macroSettimanaliService.getByDateMese(dataSql);
 					return calorieTotali;
@@ -152,9 +148,7 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 		@GetMapping(value = "/macro/getdatemese/{dataInfo}")//non aggiungere altro altrimenti non legge il parametro
 		public Date getDateMesePrima(@PathVariable String dataInfo) {
 			//controllo data 
-			Date dataSql = null;
-			if (MyUtil.controlloDataSql(dataInfo))
-				dataSql = MyUtil.convertDateinSqlDate(dataInfo);
+			Date dataSql = MyUtil.convertDateinSqlDate(dataInfo);//gestisce già errore
 				if (dataSql!=null) {
 					Date date = macroSettimanaliService.getDateMesePrima(dataSql);
 					return date;
@@ -203,14 +197,10 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 			
 			//-----------zona valida sia per update che insert------------
 			//controllo data 
-			Date dataSql;
-			if (!MyUtil.controlloDataSql(dataYYYYMMDD))
-				return new ResponseEntity("La data è di un formato errato deve essere (es. 2014-12-01)" , HttpStatus.NOT_ACCEPTABLE);//mettendo non acettabile riesco a stampare il messaggio in ajax con quello che volgio dire, diventa errore 406
-			else{
-				dataSql = MyUtil.convertDateinSqlDate(dataYYYYMMDD);
+			Date dataSql = MyUtil.convertDateinSqlDate(dataYYYYMMDD);
 				if (dataSql==null)
 					return new ResponseEntity("La data è di un formato errato deve essere (es. 2014-12-01)" , HttpStatus.NOT_ACCEPTABLE);//mettendo non acettabile riesco a stampare il messaggio in ajax con quello che volgio dire, diventa errore 406
-			}
+			
 				
 			
 				

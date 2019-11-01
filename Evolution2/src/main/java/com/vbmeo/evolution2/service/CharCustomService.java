@@ -20,4 +20,5 @@ public interface CharCustomService {
 	List<Attivita> getDispendiEnergeticiEOreSettimanaliNonAerobiciTraDueDate(Date dataInzio, Date dataFine);						
 	List<Attivita> getDispendiEnergeticiEOreSettimanaliTraDueDateDiviseInSettimane(Date dataInzio, Date dataFine);
 	
+	
 }

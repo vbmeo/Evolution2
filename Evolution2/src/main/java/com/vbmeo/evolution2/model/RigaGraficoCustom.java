@@ -45,11 +45,12 @@ public class RigaGraficoCustom {
 		this.nomeDellaRiga = nomeDellaRiga;
 	}
 
-	public RigaGraficoCustom(double[] valori, String nomeDellaRiga, String dataDa, String dataA,Date[] listaDateSingliValori) {
+	public RigaGraficoCustom(Float[] valori, String nomeDellaRiga, String dataDa, String dataA,Date[] listaDateSingliValori) {
 		String[] arrayValori = new String[valori.length];
 		
 		for (int i = 0; i < valori.length; i++) { 
-			arrayValori[i]=(Double.toString(valori[i]));
+			if (valori[i]!=null)
+				arrayValori[i]=(Float.toString(valori[i]));
 		}
 		
 		this.nomeDellaRiga = nomeDellaRiga;
