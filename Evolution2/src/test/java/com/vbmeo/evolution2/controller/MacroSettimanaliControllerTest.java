@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.vbmeo.evolution2.model.MacroSettimanali;
-import com.vbmeo.evolution2.service.MacroSettimanaliService;
 import com.vbmeo.evolution2.service.MacroSettimanaliServiceImpl;
 
 import org.junit.Before;

@@ -8,6 +8,8 @@ import com.vbmeo.evolution2.model.MacroSettimanali;
 
 public interface MacroSettimanaliService extends BaseSql<MacroSettimanali> {
 	
+	
+	//l'insert vero prende l'oggetto in questione e si affida a quello nell'interfaccia base
 	/**
 	 * return null tutto ok, altrimenti messaggio del tipo di errore
 	 * @param data

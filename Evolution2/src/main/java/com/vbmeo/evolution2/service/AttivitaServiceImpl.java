@@ -153,7 +153,7 @@ public class AttivitaServiceImpl implements AttivitaService {
 	}
 	
 	@Override
-	public List<Attivita> getDispendiEnergeticiSettimanaliAVuotoMensili(Date dataIniziosetimanaRichiesta) throws PersistenceException,SqlSessionException {
+	public List<Attivita> getDispendiEnergeticiSettimanaliAVuotoMensili(Date dataIniziosetimanaRichiesta)  {
 		Date data4SetimanePrima = MyUtil.less4WeekToDateSQl(dataIniziosetimanaRichiesta);
 		return attivitaMapper.getDispendiEnergeticiEOreSettimanaliAVuotoMensili(data4SetimanePrima, dataIniziosetimanaRichiesta);		
 	}

@@ -12,7 +12,27 @@ import org.apache.ibatis.annotations.Update;
 
 import com.vbmeo.evolution2.model.MacroSettimanali;
 
-
+///**
+// * uso delle mappe per riconoscere campi oggetto o oggetti contenti in oggetti
+// * @Results({
+//        @Result(property = "user_id", column = "id"),
+//        @Result(property = "firstName", column = "first_name"),
+//
+//})
+//
+//	oppure con result map
+//	in mapper xml, we have a resultmap tag as
+//
+//		<resultMap id="userResult" type="village">
+//		    <id property="id" column="user_id" />
+//		    <result property="firstName" column="first_name"/>
+//		</resultMap>
+//
+//	@ResultMap("userResult")
+//	@Select("SELECT id, name, district from user WHERE id = #{id}")
+// * @author vbmeo
+// *
+// */
 
 
 public interface MacroSettimanalimapper {

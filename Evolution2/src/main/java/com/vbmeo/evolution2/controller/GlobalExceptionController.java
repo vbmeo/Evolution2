@@ -50,7 +50,8 @@ public class GlobalExceptionController {
 	         logger.error("Con parametro ({})",parametro);
 	      }
 		Throwable causa = ex.getCause();
-		logger.error(causa.toString());
+		if (causa!=null)
+			logger.error(causa.getMessage());
 		return new ResponseEntity<String>("Dato passato sbagliato. La data deve essere in formato (es. 2014-12-01)", HttpStatus.BAD_REQUEST);
 	}
 	
@@ -66,7 +67,8 @@ public class GlobalExceptionController {
 	         logger.error("Con parametro ({})",parametro);
 	      }
 		Throwable causa = ex.getCause();
-		logger.error(causa.toString());
+		if (causa!=null)
+			logger.error(causa.toString());
 		return new ResponseEntity<String>("Errore nella query al db", HttpStatus.BAD_REQUEST);
 	}
 	
@@ -82,7 +84,8 @@ public class GlobalExceptionController {
 	         logger.error("Con parametro ({})",parametro);
 	      }
 		Throwable causa = ex.getCause();
-		logger.error(causa.toString());
+		if (causa!=null)
+			logger.error(causa.toString());
 		return new ResponseEntity<String>("Errore nella sintassi della query al db", HttpStatus.BAD_REQUEST);
 	}
 	
@@ -97,7 +100,8 @@ public class GlobalExceptionController {
 	         logger.error("Con parametro ({})",parametro);
 	      }
 		Throwable causa = ex.getCause();
-		logger.error(causa.toString());
+		if (causa!=null)
+			logger.error(causa.toString());
 		return new ResponseEntity<String>("Errore nella sintassi della query al db MySql ", HttpStatus.BAD_REQUEST);
 	}
 	
@@ -112,7 +116,8 @@ public class GlobalExceptionController {
 	         logger.error("Con parametro ({})",parametro);
 	      }
 		Throwable causa = ex.getCause();
-		logger.error(causa.toString());
+		if (causa!=null)
+			logger.error(causa.toString());
 		return new ResponseEntity<String>("Errore nella sintassi della query al db MySql ", HttpStatus.BAD_REQUEST);
 	}
 	
@@ -121,7 +126,8 @@ public class GlobalExceptionController {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> handleAllException(Exception ex) {
 		Throwable causa = ex.getCause();
-		logger.error(causa.toString());
+		if (causa!=null)
+			logger.error(causa.toString());
 		return new ResponseEntity<String>("Errore generico...", HttpStatus.BAD_REQUEST);
 
 	}

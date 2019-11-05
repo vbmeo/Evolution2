@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,8 +44,9 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 		//http://localhost:8080/evolution2/macro
 		//@CrossOrigin
 		@GetMapping(value = "/macro")
-		public List<MacroSettimanali> list() {
-			logger.debug("richiesta lista macro settimanali");
+		//@RequestHeader serve per leggere lheader di chi sta facendo la richiesta user agent ha il tipo di browser
+		public List<MacroSettimanali> list(@RequestHeader("User-Agent") String userAgent) {
+			logger.debug("richiesta lista macro settimanali da " + userAgent);
 			List<MacroSettimanali> lista = macroSettimanaliService.getAll();		
 			return lista;
 		}
@@ -91,10 +93,10 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 		//http://localhost:8080/evolution2/macro/30 o 2018-10-22
 		
 		//senza una lista non funziona con solo l'oggetto
-		@ResponseBody
+		//@ResponseBody non più necessaria
 		@GetMapping(value = "/macro/")//non aggiungere altro altrimenti non legge il parametro
 		public List<MacroSettimanali> getById(@RequestParam(name = "idOrDate") String idOrDate) {
-			List<MacroSettimanali> list = new ArrayList();
+			List<MacroSettimanali> list = new ArrayList<MacroSettimanali>();
 			
 			if (MyUtil.isNumeric(idOrDate)){
 				//richiesta per id
@@ -117,6 +119,7 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 		
 		@ResponseBody
 		@GetMapping(value = "/macro/bydate/{dataInfo}")//non aggiungere altro altrimenti non legge il parametro
+		//Parametri annotati con @PathVariable recuperati dal pattern.
 		public List<MacroSettimanali> getByDate(@PathVariable String dataInfo) {
 			//controllo data 
 			Date dataSql = MyUtil.convertDateinSqlDate(dataInfo);//gestisce già errore
@@ -235,3 +238,30 @@ private static final Logger logger = LoggerFactory.getLogger(MacroSettimanaliCon
 		}
 
 }
+
+
+
+//scuola
+//Infine, defaultValue è l’elemento che permette d’impostare un valore di default per il parametro annotato:
+//
+//@RequestParam(name="nome", defaultValue="Tizio") String nome
+//Nel caso in cui il parametro nome non sia presente nella richiesta, il valore "Tizio" verrà assegnato all’omonimo parametro dell’hanlder.
+
+//
+//
+//L’annotazione @RequestHeader
+//Così com’è possibile associare un parametro del nostro hanlder ad un corrispondente parametro della richiesta HTTP, è possibile “mappare” un header della richiesta ad un parametro
+//
+//Analogamente a quanto visto per i parametri di una richiesta HTTP, Spring MVC permette di accedere agli header inviati dal client. Per farlo possiamo utilizzare l’annotazione @RequestHeader:
+
+
+//Request headers
+//– :path : /hacker-shop/ (il percorso web della risorsa)
+//– accept-encoding : gzip, deflate (è il tipo di compressione accettata)
+//– upgrade-insecure-requests : 1 (il Client esprime la sua preferenza per il tipo di crittografia da usare)
+//– user-agent : Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0 (identifica il nostro Device)
+//– accept : text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8 (il client accetta contenuti di tipo testo, html, immagini, etc…)
+//– :authority : www.hackerwebsecurity.com (l’host richiesto)
+//– :scheme : https (il device chiede di usare il protocollo HTTP(S)icuro)
+//– :method: GET (la richiesta è di tipo GET. Si tratta di verbi HTTP usati per eseguire un certo tipo di azione. In questo caso GET, letteralmente “ottenere”, è il verbo più usato per richiedere informazioni ad un Web Server. Per essere più chiari:
+

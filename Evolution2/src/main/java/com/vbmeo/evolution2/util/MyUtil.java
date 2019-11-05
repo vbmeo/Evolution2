@@ -269,7 +269,7 @@ public class MyUtil {
 	 * @param dataYyyyMMdd
 	 * @return
 	 */
-	public static java.sql.Date convertDateinSqlDate(String dataYyyyMMdd) {
+	public static java.sql.Date convertDateinSqlDate(String dataYyyyMMdd) throws IllegalArgumentException {
 		controlloDataSql(dataYyyyMMdd);//gerera eccezzione se non è data
 			java.sql.Date sqlStartDate = java.sql.Date.valueOf(dataYyyyMMdd); 
 			return sqlStartDate;

@@ -203,7 +203,7 @@ public interface AttivitaMapper {
 	@Select("SELECT data_fine_settimana, SUM(dispendio_energetico) as dispendio_energetico, SUM(quantita_in_ore) AS quantita_in_ore "
 			+ "FROM evolution.attivita_fiche "
 			+ "WHERE a_vuoto=true and data_fine_settimana >= #{dataInzio} and data_fine_settimana <= #{dataFine} ")
-	public List<Attivita> getDispendiEnergeticiEOreSettimanaliAVuotoMensili(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine) throws PersistenceException,SqlSessionException  ; 
+	public List<Attivita> getDispendiEnergeticiEOreSettimanaliAVuotoMensili(@Param("dataInzio") Date dataInzio, @Param("dataFine") Date dataFine)  ; 
 			
 	
 	@Select("SELECT data_fine_settimana, SUM(dispendio_energetico) as dispendio_energetico, SUM(quantita_in_ore) AS quantita_in_ore "
